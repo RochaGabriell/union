@@ -37,6 +37,7 @@ class GroupRepositoryImpl implements GroupRepository {
       final groupModel = GroupModel(
         id: const Uuid().v4(),
         name: group.name,
+        description: group.description,
         creatorId: group.creatorId,
         members: group.members,
       );
@@ -65,6 +66,7 @@ class GroupRepositoryImpl implements GroupRepository {
       final groupModel = GroupModel(
         id: group.id,
         name: group.name,
+        description: group.description,
         creatorId: group.creatorId,
         members: group.members,
       );
@@ -111,6 +113,7 @@ class GroupRepositoryImpl implements GroupRepository {
       final groupEntity = GroupEntity(
         id: groupModel.id,
         name: groupModel.name,
+        description: groupModel.description,
         creatorId: groupModel.creatorId,
         members: groupModel.members,
       );
@@ -140,6 +143,7 @@ class GroupRepositoryImpl implements GroupRepository {
         return GroupEntity(
           id: model.id,
           name: model.name,
+          description: model.description,
           creatorId: model.creatorId,
           members: model.members,
         );

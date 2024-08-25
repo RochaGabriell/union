@@ -10,6 +10,7 @@ import 'package:union/features/group/presentation/bloc/group_bloc.dart';
 class GroupForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController nameController;
+  final TextEditingController descriptionController;
   final GroupState state;
   final String creatorIdController;
 
@@ -17,6 +18,7 @@ class GroupForm extends StatelessWidget {
     super.key,
     required this.formKey,
     required this.nameController,
+    required this.descriptionController,
     required this.state,
     required this.creatorIdController,
   });
@@ -40,6 +42,19 @@ class GroupForm extends StatelessWidget {
             },
           ),
           const SizedBox(height: 24),
+          CustomFormField(
+            icon: const Icon(Icons.description),
+            label: 'Descrição',
+            hint: 'Descrição do grupo',
+            controller: descriptionController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor, insira uma descrição';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 24),
           GradientButton(
             text: 'Salvar',
             isLoading: state is GroupLoadingState,
@@ -49,6 +64,7 @@ class GroupForm extends StatelessWidget {
                       GroupCreateEvent(
                         group: GroupEntity(
                           name: nameController.text,
+                          description: descriptionController.text,
                           creatorId: creatorIdController,
                           members: [],
                         ),

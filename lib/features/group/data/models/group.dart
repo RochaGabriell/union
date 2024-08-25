@@ -5,6 +5,7 @@ class GroupModel extends GroupEntity {
     super.id,
     required super.creatorId,
     required super.name,
+    required super.description,
     required super.members,
   });
 
@@ -16,6 +17,7 @@ class GroupModel extends GroupEntity {
       id: json['id'],
       creatorId: json['creatorId'],
       name: json['name'],
+      description: json['description'],
       members: membersList,
     );
   }
@@ -25,6 +27,7 @@ class GroupModel extends GroupEntity {
       'id': id,
       'creatorId': creatorId,
       'name': name,
+      'description': description,
       'members': members,
     };
   }

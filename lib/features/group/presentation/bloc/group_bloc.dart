@@ -76,7 +76,6 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
 
   void _getGroups(GroupsGetEvent event, Emitter<GroupState> emit) async {
     final response = await _groupGetGroups(event.userId);
-    print('response: $response');
     response.fold(
       (failure) => emit(GroupErrorState(failure.message)),
       (groups) => emit(GroupSuccessGetGroupsState(groups)),

@@ -42,20 +42,22 @@ class _GroupPageState extends State<GroupPage> {
         scrolledUnderElevation: 0.0,
         title: const Text('Grupos'),
         actions: [
-          PopupMenuButton(
-            onSelected: (value) {
-              if (value == 'Sair') {
-                context.read<AuthBloc>().add(AuthLogoutEvent());
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  routes.login,
-                  (route) => false,
-                );
-              }
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.pushNamed(context, routes.profile);
             },
-            itemBuilder: (context) => const [
-              PopupMenuItem(value: 'Sair', child: Text('Sair')),
-            ],
+          ),
+          IconButton(
+            icon: const Icon(Icons.exit_to_app),
+            onPressed: () {
+              context.read<AuthBloc>().add(AuthLogoutEvent());
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                routes.login,
+                (route) => false,
+              );
+            },
           ),
         ],
       ),
@@ -66,6 +68,11 @@ class _GroupPageState extends State<GroupPage> {
             if (state is GroupLoadingState) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is GroupSuccessGetGroupsState) {
+              if (state.groups.isEmpty) {
+                return const Center(
+                  child: Text('Nenhum grupo encontrado. 😢'),
+                );
+              }
               return _buildGroupList(state.groups);
             }
             return const SizedBox();
@@ -97,9 +104,16 @@ class _GroupPageState extends State<GroupPage> {
         final group = groups[index];
         return ListTile(
           splashColor: Palette.primary.withOpacity(0.1),
-          leading: const CircleAvatar(child: Icon(Icons.group)),
+          leading: const CircleAvatar(
+            backgroundColor: Palette.primary,
+            child: Icon(Icons.group, color: Colors.white),
+          ),
           title: Text(group.name),
-          subtitle: Text('Quantidade de membros: ${group.members.length}'),
+          subtitle: Text(
+            group.description,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {},
         );
@@ -110,6 +124,7 @@ class _GroupPageState extends State<GroupPage> {
   void _showGroupForm(BuildContext context, GroupState state) {
     final formKey = GlobalKey<FormState>();
     final nameController = TextEditingController();
+    final descriptionController = TextEditingController();
     final creatorIdController = getIt.get<UserCubit>().user?.id;
 
     if (creatorIdController == null) return;
@@ -132,6 +147,7 @@ class _GroupPageState extends State<GroupPage> {
                 GroupForm(
                   formKey: formKey,
                   nameController: nameController,
+                  descriptionController: descriptionController,
                   state: state,
                   creatorIdController: creatorIdController,
                 ),

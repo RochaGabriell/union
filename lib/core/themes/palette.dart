@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 
 class Palette {
-  static const Color primary = Color.fromRGBO(3, 165, 60, 1);
-  static const Color secondary = Color.fromRGBO(6, 189, 123, 1);
+  static const Color primary = Color.fromARGB(255, 3, 165, 60);
+  static const Color secondary = Color.fromARGB(255, 6, 189, 123);
   static const Color background = Color.fromARGB(255, 255, 255, 255);
 
-  static const Color primaryDark = Color.fromRGBO(3, 165, 60, 1);
+  static const Color primaryDark = Color.fromARGB(255, 3, 165, 60);
   static const Color secondaryDark = Color.fromRGBO(6, 189, 123, 1);
   static const Color backgroundDark = Color.fromARGB(255, 45, 82, 89);
 
