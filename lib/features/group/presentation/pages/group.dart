@@ -40,6 +40,23 @@ class _GroupPageState extends State<GroupPage> {
     setState(() => filterSelected = index);
   }
 
+  List<GroupEntity> _filterGroups(List<GroupEntity> groups) {
+    final String? userId = getIt.get<UserCubit>().user?.id;
+    if (userId == null) return [];
+
+    if (filterSelected == 0) return groups;
+    if (filterSelected == 1) {
+      return groups.where((group) => group.creatorId == userId).toList();
+    }
+    if (filterSelected == 2) {
+      return groups.where((group) {
+        return group.members.contains(userId);
+      }).toList();
+    }
+
+    return [];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,10 +102,11 @@ class _GroupPageState extends State<GroupPage> {
   }
 
   Widget _buildGroupList(List<GroupEntity> groups) {
+    final List<GroupEntity> filteredGroups = _filterGroups(groups);
     return ListView.builder(
-      itemCount: groups.length,
+      itemCount: filteredGroups.length,
       itemBuilder: (context, index) {
-        final group = groups[index];
+        final group = filteredGroups[index];
         return ListTile(
           splashColor: Palette.primary.withOpacity(0.1),
           leading: const CircleAvatar(
