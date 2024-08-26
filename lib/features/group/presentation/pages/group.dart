@@ -44,17 +44,20 @@ class _GroupPageState extends State<GroupPage> {
     final String? userId = getIt.get<UserCubit>().user?.id;
     if (userId == null) return [];
 
-    if (filterSelected == 0) return groups;
-    if (filterSelected == 1) {
-      return groups.where((group) => group.creatorId == userId).toList();
+    switch (filterSelected) {
+      case 0:
+        return groups;
+      case 1:
+        return groups.where((group) {
+          return group.creatorId == userId;
+        }).toList();
+      case 2:
+        return groups.where((group) {
+          return group.members.contains(userId);
+        }).toList();
+      default:
+        return [];
     }
-    if (filterSelected == 2) {
-      return groups.where((group) {
-        return group.members.contains(userId);
-      }).toList();
-    }
-
-    return [];
   }
 
   @override
