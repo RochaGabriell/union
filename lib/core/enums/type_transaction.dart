@@ -1,0 +1,4 @@
+enum TypeTransaction {
+  fixa,
+  variada,
+}

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /* Project Imports */
+import 'package:union/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:union/features/group/presentation/bloc/group_bloc.dart';
 import 'package:union/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:union/core/common/cubit/user/user_cubit.dart';
@@ -27,6 +28,7 @@ void main() async {
         BlocProvider(create: (context) => getIt<ThemeBloc>()),
         BlocProvider(create: (context) => getIt<AuthBloc>()),
         BlocProvider(create: (context) => getIt<GroupBloc>()),
+        BlocProvider(create: (context) => getIt<TransactionBloc>()),
       ],
       child: const MyApp(),
     ),
