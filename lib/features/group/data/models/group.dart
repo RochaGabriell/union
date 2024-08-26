@@ -1,3 +1,4 @@
+/* Project Imports */
 import 'package:union/features/group/domain/entities/group_entity.dart';
 
 class GroupModel extends GroupEntity {

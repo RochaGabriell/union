@@ -34,52 +34,69 @@ class _RegisterFormState extends State<RegisterForm> {
           key: _formKey,
           child: Column(
             children: [
-              CustomFormField(
-                icon: const Icon(Icons.person),
-                label: 'Nome',
-                hint: 'Digite seu nome',
-                controller: _nameController,
-                validator: _validator,
-              ),
+              _buildNameField(),
               const SizedBox(height: 20),
-              CustomFormField(
-                icon: const Icon(Icons.email),
-                label: 'Email',
-                hint: 'Digite seu email',
-                autofillHints: const [AutofillHints.email],
-                controller: _emailController,
-                validator: _validator,
-              ),
+              _buildEmailField(),
               const SizedBox(height: 20),
-              CustomFormField(
-                icon: const Icon(Icons.lock),
-                label: 'Senha',
-                hint: 'Digite sua senha',
-                obscure: true,
-                autofillHints: const [AutofillHints.password],
-                controller: _passwordController,
-                validator: _validator,
-              ),
+              _buildPasswordFiel(),
               const SizedBox(height: 20),
-              GradientButton(
-                text: 'Cadastrar',
-                isLoading: state is AuthLoadingState,
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    TextInput.finishAutofillContext();
-                    context.read<AuthBloc>().add(
-                          AuthRegisterEvent(
-                            name: _nameController.text,
-                            email: _emailController.text,
-                            password: _passwordController.text,
-                          ),
-                        );
-                  }
-                },
-              ),
+              _buildSaveButton(state, context),
             ],
           ),
         );
+      },
+    );
+  }
+
+  CustomFormField _buildNameField() {
+    return CustomFormField(
+      icon: const Icon(Icons.person),
+      label: 'Nome',
+      hint: 'Digite seu nome',
+      controller: _nameController,
+      validator: _validator,
+    );
+  }
+
+  CustomFormField _buildEmailField() {
+    return CustomFormField(
+      icon: const Icon(Icons.email),
+      label: 'Email',
+      hint: 'Digite seu email',
+      keyboardType: TextInputType.emailAddress,
+      autofillHints: const [AutofillHints.email],
+      controller: _emailController,
+      validator: _validator,
+    );
+  }
+
+  CustomFormField _buildPasswordFiel() {
+    return CustomFormField(
+      icon: const Icon(Icons.lock),
+      label: 'Senha',
+      hint: 'Digite sua senha',
+      obscure: true,
+      autofillHints: const [AutofillHints.password],
+      controller: _passwordController,
+      validator: _validator,
+    );
+  }
+
+  GradientButton _buildSaveButton(AuthState state, BuildContext context) {
+    return GradientButton(
+      text: 'Cadastrar',
+      isLoading: state is AuthLoadingState,
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          TextInput.finishAutofillContext();
+          context.read<AuthBloc>().add(
+                AuthRegisterEvent(
+                  name: _nameController.text,
+                  email: _emailController.text,
+                  password: _passwordController.text,
+                ),
+              );
+        }
       },
     );
   }

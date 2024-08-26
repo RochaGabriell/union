@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:union/core/themes/palette.dart';
 
 /* Project Imports */
-import 'package:union/features/group/presentation/widgets/form/form_header.dart';
 import 'package:union/features/group/presentation/widgets/form/group_form.dart';
+import 'package:union/features/group/presentation/widgets/group_app_bar.dart';
 import 'package:union/features/group/presentation/bloc/group_bloc.dart';
 import 'package:union/features/group/domain/entities/group_entity.dart';
-import 'package:union/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:union/core/common/cubit/user/user_cubit.dart';
-import 'package:union/config/routes/router.dart' as routes;
+import 'package:union/core/common/widgets/form_header.dart';
 import 'package:union/core/utils/show_dialog.dart';
 import 'package:union/core/enums/alert_type.dart';
 import 'package:union/core/utils/injections.dart';
@@ -23,45 +22,35 @@ class GroupPage extends StatefulWidget {
 }
 
 class _GroupPageState extends State<GroupPage> {
+  int filterSelected = 0;
+
   @override
   void initState() {
     super.initState();
     _fetchGroups();
   }
 
-  void _fetchGroups() {
+  Future<void> _fetchGroups() async {
     final String? userId = getIt.get<UserCubit>().user?.id;
     if (userId == null) return;
     getIt<GroupBloc>().add(GroupsGetEvent(userId: userId));
   }
 
+  void _changeFilter(int index) {
+    setState(() => filterSelected = index);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0.0,
-        title: const Text('Grupos'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.person),
-            onPressed: () {
-              Navigator.pushNamed(context, routes.profile);
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.exit_to_app),
-            onPressed: () {
-              context.read<AuthBloc>().add(AuthLogoutEvent());
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                routes.login,
-                (route) => false,
-              );
-            },
-          ),
-        ],
+      appBar: GroupAppBar(
+        filterSelected: filterSelected,
+        onFilterChange: _changeFilter,
       ),
-      body: Center(
+      body: RefreshIndicator(
+        onRefresh: _fetchGroups,
+        color: Palette.primary,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         child: BlocConsumer<GroupBloc, GroupState>(
           listener: _listener,
           builder: (context, state) {
@@ -80,10 +69,8 @@ class _GroupPageState extends State<GroupPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showGroupForm(
-          context,
-          context.read<GroupBloc>().state,
-        ),
+        heroTag: 'addGroup',
+        onPressed: () => _showGroupForm(context),
         child: const Icon(Icons.add),
       ),
     );
@@ -121,14 +108,7 @@ class _GroupPageState extends State<GroupPage> {
     );
   }
 
-  void _showGroupForm(BuildContext context, GroupState state) {
-    final formKey = GlobalKey<FormState>();
-    final nameController = TextEditingController();
-    final descriptionController = TextEditingController();
-    final creatorIdController = getIt.get<UserCubit>().user?.id;
-
-    if (creatorIdController == null) return;
-
+  void _showGroupForm(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -139,18 +119,12 @@ class _GroupPageState extends State<GroupPage> {
           ),
           child: Container(
             padding: const EdgeInsets.all(16),
-            child: Column(
+            child: const Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const FormHeader(),
-                const Divider(),
-                GroupForm(
-                  formKey: formKey,
-                  nameController: nameController,
-                  descriptionController: descriptionController,
-                  state: state,
-                  creatorIdController: creatorIdController,
-                ),
+                FormHeader(title: 'Criar Grupo'),
+                Divider(),
+                GroupForm(),
               ],
             ),
           ),

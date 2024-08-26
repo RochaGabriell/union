@@ -29,43 +29,55 @@ class _LoginFormState extends State<LoginForm> {
             key: _formKey,
             child: Column(
               children: [
-                CustomFormField(
-                  icon: const Icon(Icons.email),
-                  label: 'Email',
-                  hint: 'Digite seu email',
-                  autofillHints: const [AutofillHints.username],
-                  controller: _emailController,
-                  validator: _validator,
-                ),
+                _buildEmailField(),
                 const SizedBox(height: 20),
-                CustomFormField(
-                  icon: const Icon(Icons.lock),
-                  label: 'Senha',
-                  hint: 'Digite sua senha',
-                  obscure: true,
-                  autofillHints: const [AutofillHints.password],
-                  controller: _passwordController,
-                  validator: _validator,
-                ),
+                _buildPasswordField(),
                 const SizedBox(height: 20),
-                GradientButton(
-                  text: 'Entrar',
-                  isLoading: state is AuthLoadingState,
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      context.read<AuthBloc>().add(
-                            AuthLoginEvent(
-                              email: _emailController.text,
-                              password: _passwordController.text,
-                            ),
-                          );
-                    }
-                  },
-                ),
+                _buildSaveButton(state, context),
               ],
             ),
           ),
         );
+      },
+    );
+  }
+
+  CustomFormField _buildEmailField() {
+    return CustomFormField(
+      icon: const Icon(Icons.email),
+      label: 'Email',
+      hint: 'Digite seu email',
+      autofillHints: const [AutofillHints.username],
+      controller: _emailController,
+      validator: _validator,
+    );
+  }
+
+  CustomFormField _buildPasswordField() {
+    return CustomFormField(
+      icon: const Icon(Icons.lock),
+      label: 'Senha',
+      hint: 'Digite sua senha',
+      obscure: true,
+      autofillHints: const [AutofillHints.password],
+      controller: _passwordController,
+      validator: _validator,
+    );
+  }
+
+  GradientButton _buildSaveButton(AuthState state, BuildContext context) {
+    return GradientButton(
+      text: 'Entrar',
+      isLoading: state is AuthLoadingState,
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          context.read<AuthBloc>().add(
+                AuthLoginEvent(
+                  email: _emailController.text,
+                  password: _passwordController.text,
+                ),
+              );
+        }
       },
     );
   }

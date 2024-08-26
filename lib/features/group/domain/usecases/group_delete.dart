@@ -3,10 +3,10 @@ import 'package:fpdart/fpdart.dart';
 
 /* Project Imports */
 import 'package:union/features/group/domain/repositories/group_repository.dart';
-import 'package:union/features/group/domain/usecases/groupcase.dart';
+import 'package:union/core/usecase/usecase.dart';
 import 'package:union/core/errors/failures.dart';
 
-class GroupDelete implements GroupCase<void, String> {
+class GroupDelete implements UseCase<void, String> {
   final GroupRepository _groupRepository;
 
   GroupDelete(this._groupRepository);

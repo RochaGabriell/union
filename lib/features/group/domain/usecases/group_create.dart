@@ -4,10 +4,10 @@ import 'package:fpdart/fpdart.dart';
 /* Project Imports */
 import 'package:union/features/group/domain/repositories/group_repository.dart';
 import 'package:union/features/group/domain/entities/group_entity.dart';
-import 'package:union/features/group/domain/usecases/groupcase.dart';
+import 'package:union/core/usecase/usecase.dart';
 import 'package:union/core/errors/failures.dart';
 
-class GroupCreate implements GroupCase<String, GroupEntity> {
+class GroupCreate implements UseCase<String, GroupEntity> {
   final GroupRepository _groupRepository;
 
   GroupCreate(this._groupRepository);

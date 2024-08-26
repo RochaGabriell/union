@@ -1,12 +1,12 @@
 /* Package Imports */
-import 'package:union/features/group/domain/entities/group_entity.dart';
-import 'package:union/features/group/data/models/group.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:uuid/uuid.dart';
 
 /* Project Imports */
 import 'package:union/features/group/domain/repositories/group_repository.dart';
+import 'package:union/features/group/domain/entities/group_entity.dart';
 import 'package:union/features/group/data/datasources/remote.dart';
+import 'package:union/features/group/data/models/group.dart';
 import 'package:union/core/network/connection_checker.dart';
 import 'package:union/core/constants/constants.dart';
 import 'package:union/core/errors/exceptions.dart';
@@ -25,27 +25,14 @@ class GroupRepositoryImpl implements GroupRepository {
     return await _connectionChecker.connected;
   }
 
-  @override
-  Future<Either<Failure, String>> createGroup({
-    required GroupEntity group,
-  }) async {
+  Future<Either<Failure, T>> _performRemoteOperation<T>(
+    Future<T> Function() operation,
+  ) async {
+    if (!await _isConnected()) {
+      return left(Failure(Constants.noConnectionMessage));
+    }
     try {
-      if (!await _isConnected()) {
-        return left(Failure(Constants.noConnectionMessage));
-      }
-
-      final groupModel = GroupModel(
-        id: const Uuid().v4(),
-        name: group.name,
-        description: group.description,
-        creatorId: group.creatorId,
-        members: group.members,
-      );
-
-      final result = await _groupRemoteDataSource.createGroup(
-        group: groupModel,
-      );
-
+      final result = await operation();
       return right(result);
     } on ServerException catch (e) {
       return left(Failure(e.message));
@@ -54,106 +41,78 @@ class GroupRepositoryImpl implements GroupRepository {
     }
   }
 
+  GroupModel _mapEntityToModel(GroupEntity group) {
+    return GroupModel(
+      id: const Uuid().v4(),
+      name: group.name,
+      description: group.description,
+      creatorId: group.creatorId,
+      members: group.members,
+    );
+  }
+
+  @override
+  Future<Either<Failure, String>> createGroup({
+    required GroupEntity group,
+  }) async {
+    return await _performRemoteOperation(() async {
+      final groupModel = _mapEntityToModel(group);
+      return await _groupRemoteDataSource.createGroup(group: groupModel);
+    });
+  }
+
   @override
   Future<Either<Failure, void>> updateGroup({
     required GroupEntity group,
   }) async {
-    try {
-      if (!await _isConnected()) {
-        return left(Failure(Constants.noConnectionMessage));
-      }
-
-      final groupModel = GroupModel(
-        id: group.id,
-        name: group.name,
-        description: group.description,
-        creatorId: group.creatorId,
-        members: group.members,
-      );
-
+    return await _performRemoteOperation(() async {
+      final groupModel = _mapEntityToModel(group);
       await _groupRemoteDataSource.updateGroup(group: groupModel);
-
-      return right(null);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
-    } catch (e) {
-      return left(Failure('Unexpected error: $e'));
-    }
+      return;
+    });
   }
 
   @override
   Future<Either<Failure, void>> deleteGroup({required String groupId}) async {
-    try {
-      if (!await _isConnected()) {
-        return left(Failure(Constants.noConnectionMessage));
-      }
-
+    return await _performRemoteOperation(() async {
       await _groupRemoteDataSource.deleteGroup(groupId: groupId);
-      return right(null);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
-    } catch (e) {
-      return left(Failure('Unexpected error: $e'));
-    }
+      return;
+    });
   }
 
   @override
   Future<Either<Failure, GroupEntity>> getGroup({
     required String groupId,
   }) async {
-    try {
-      if (!await _isConnected()) {
-        return left(Failure(Constants.noConnectionMessage));
-      }
-
+    return await _performRemoteOperation(() async {
       final groupModel = await _groupRemoteDataSource.getGroup(
         groupId: groupId,
       );
-
-      final groupEntity = GroupEntity(
+      return GroupEntity(
         id: groupModel.id,
         name: groupModel.name,
         description: groupModel.description,
         creatorId: groupModel.creatorId,
         members: groupModel.members,
       );
-
-      return right(groupEntity);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
-    } catch (e) {
-      return left(Failure('Unexpected error: $e'));
-    }
+    });
   }
 
   @override
   Future<Either<Failure, List<GroupEntity>>> getGroups({
     required String userId,
   }) async {
-    try {
-      if (!await _isConnected()) {
-        return left(Failure(Constants.noConnectionMessage));
-      }
-
-      final groupModels = await _groupRemoteDataSource.getGroups(
-        userId: userId,
-      );
-
-      final groupEntities = groupModels.map((model) {
+    return await _performRemoteOperation(() async {
+      final groups = await _groupRemoteDataSource.getGroups(userId: userId);
+      return groups.map((group) {
         return GroupEntity(
-          id: model.id,
-          name: model.name,
-          description: model.description,
-          creatorId: model.creatorId,
-          members: model.members,
+          id: group.id,
+          name: group.name,
+          description: group.description,
+          creatorId: group.creatorId,
+          members: group.members,
         );
       }).toList();
-
-      return right(groupEntities);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
-    } catch (e) {
-      return left(Failure('Unexpected error: $e'));
-    }
+    });
   }
 }
