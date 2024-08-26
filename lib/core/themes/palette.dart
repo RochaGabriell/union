@@ -8,7 +8,7 @@ class Palette {
 
   static const Color primaryDark = Color.fromARGB(255, 3, 165, 60);
   static const Color secondaryDark = Color.fromRGBO(6, 189, 123, 1);
-  static const Color backgroundDark = Color.fromARGB(255, 45, 82, 89);
+  static const Color backgroundDark = Color.fromARGB(255, 39, 61, 65);
 
   static const Map<int, Color> gradient = {
     1: Color.fromRGBO(3, 165, 60, 1),

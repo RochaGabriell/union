@@ -15,7 +15,27 @@ class CustomTheme {
       backgroundColor: Palette.primary,
       foregroundColor: Palette.white,
       iconTheme: IconThemeData(color: Palette.white, size: 24),
-      titleTextStyle: TextStyle(fontSize: 24),
+      titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    ),
+    // ProgressIndicatorTheme
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: Palette.primary,
+      refreshBackgroundColor: Palette.background,
+      circularTrackColor: Palette.background,
+    ),
+    // ChoiceChipTheme
+    chipTheme: ChipThemeData(
+      showCheckmark: false,
+      selectedColor: Palette.primary,
+      backgroundColor: Palette.background,
+      secondarySelectedColor: Palette.primary.withOpacity(0.3),
+      labelStyle: const TextStyle(
+        fontSize: 18,
+        color: Palette.textColor,
+        fontWeight: FontWeight.bold,
+      ),
+      secondaryLabelStyle: const TextStyle(color: Palette.primary),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     ),
     // ListTileTheme
     listTileTheme: const ListTileThemeData(
@@ -30,6 +50,15 @@ class CustomTheme {
         color: Palette.textDescriptionColor,
         fontSize: 16,
       ),
+    ),
+    // ExpansionTileTheme
+    expansionTileTheme: ExpansionTileThemeData(
+      backgroundColor: Palette.primary.withOpacity(0.1),
+      iconColor: Palette.textColor,
+      textColor: Palette.textColor,
+      collapsedBackgroundColor: Palette.background,
+      collapsedIconColor: Palette.textColor,
+      collapsedTextColor: Palette.textColor,
     ),
     // FloatingActionButtonThemeData
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -111,17 +140,37 @@ class CustomTheme {
     scaffoldBackgroundColor: Palette.backgroundDark,
     // appBarTheme
     appBarTheme: const AppBarTheme(
-      backgroundColor: Palette.secondaryDark,
+      backgroundColor: Palette.primaryDark,
       foregroundColor: Palette.white,
       iconTheme: IconThemeData(color: Palette.white, size: 24),
-      titleTextStyle: TextStyle(fontSize: 24),
+      titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    ),
+    // ProgressIndicatorTheme
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: Palette.primaryDark,
+      refreshBackgroundColor: Palette.backgroundDark,
+      circularTrackColor: Palette.backgroundDark,
+    ),
+    // ChoiceChipTheme
+    chipTheme: ChipThemeData(
+      showCheckmark: false,
+      selectedColor: Palette.primaryDark,
+      backgroundColor: Palette.backgroundDark,
+      secondarySelectedColor: Palette.primaryDark.withOpacity(0.3),
+      labelStyle: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+        color: Palette.textDarkColor,
+      ),
+      secondaryLabelStyle: const TextStyle(color: Palette.primaryDark),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
     ),
     // ListTileTheme
     listTileTheme: const ListTileThemeData(
       tileColor: Palette.backgroundDark,
-      iconColor: Palette.textColor,
+      iconColor: Palette.textDarkColor,
       titleTextStyle: TextStyle(
-        color: Palette.textColor,
+        color: Palette.textDarkColor,
         fontSize: 18,
         fontWeight: FontWeight.bold,
       ),
@@ -129,6 +178,15 @@ class CustomTheme {
         color: Palette.textDescriptionColor,
         fontSize: 16,
       ),
+    ),
+    // ExpansionTileTheme
+    expansionTileTheme: ExpansionTileThemeData(
+      backgroundColor: Palette.primaryDark.withOpacity(0.1),
+      iconColor: Palette.textDarkColor,
+      textColor: Palette.textDarkColor,
+      collapsedBackgroundColor: Palette.backgroundDark,
+      collapsedIconColor: Palette.textDarkColor,
+      collapsedTextColor: Palette.textDarkColor,
     ),
     // FloatingActionButtonThemeData
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -153,7 +211,7 @@ class CustomTheme {
       iconTheme: const WidgetStatePropertyAll(
         IconThemeData(color: Palette.white, size: 24),
       ),
-      backgroundColor: Palette.secondaryDark,
+      backgroundColor: Palette.primaryDark,
       labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
     ),
     // textTheme
