@@ -25,10 +25,9 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
   @override
   Future<String> createGroup({required GroupModel group}) async {
     try {
-      DocumentReference groupRef = await _firestore.collection('groups').add(
-            group.toJson(),
-          );
-      return groupRef.id;
+      final groupId = group.id;
+      await _firestore.collection('groups').doc(groupId).set(group.toJson());
+      return groupId ?? '';
     } catch (e) {
       throw ServerException(e.toString());
     }

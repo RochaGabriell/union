@@ -30,11 +30,11 @@ class TransactionRemoteDataSourceImpl implements TransactionRemoteDataSource {
   Future<String> createTransaction(
       {required TransactionModel transaction}) async {
     try {
-      DocumentReference transactionRef =
-          await _firestore.collection('transactions').add(
-                transaction.toJson(),
-              );
-      return transactionRef.id;
+      final transactionId = transaction.id;
+      await _firestore.collection('transactions').doc(transactionId).set(
+            transaction.toJson(),
+          );
+      return transactionId ?? '';
     } catch (e) {
       throw ServerException(e.toString());
     }

@@ -1,5 +1,8 @@
+/* Flutter Imports */
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
+/* Core Imports */
 import 'package:union/core/themes/palette.dart';
 
 class CustomFormField extends StatelessWidget {
@@ -10,6 +13,7 @@ class CustomFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool autofocus;
   final Iterable<String> autofillHints;
+  final List<TextInputFormatter>? inputFormatters;
   final TextEditingController controller;
   final String? Function(String?)? validator;
 
@@ -22,6 +26,7 @@ class CustomFormField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.autofocus = false,
     this.autofillHints = const [],
+    this.inputFormatters,
     required this.controller,
     required this.validator,
   });
@@ -36,6 +41,7 @@ class CustomFormField extends StatelessWidget {
       obscureText: obscure,
       autofillHints: autofillHints,
       keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         prefixIcon: icon,
         labelText: label,

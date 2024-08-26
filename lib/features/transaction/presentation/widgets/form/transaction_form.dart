@@ -11,6 +11,7 @@ import 'package:union/core/enums/type_transaction.dart';
 import 'package:union/core/utils/injections.dart';
 
 /* Features Imports */
+import 'package:union/features/transaction/presentation/widgets/currency_input_field.dart';
 import 'package:union/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:union/features/transaction/domain/entities/transaction_entity.dart';
 import 'package:union/features/group/presentation/bloc/group_bloc.dart';
@@ -62,7 +63,7 @@ class _TransactionFormState extends State<TransactionForm> {
                 const SizedBox(height: 10),
                 _buildDescriptionField(),
                 const SizedBox(height: 24),
-                _buildValueField(),
+                CurrencyInputField(valueController: valueController),
                 const SizedBox(height: 24),
                 _buildDateField(context),
                 const SizedBox(height: 24),
@@ -85,32 +86,12 @@ class _TransactionFormState extends State<TransactionForm> {
     return CustomFormField(
       icon: const Icon(Icons.description),
       label: 'Descrição',
-      hint: 'Descrição do grupo',
+      hint: 'Descrição da Despesa',
       autofocus: true,
       controller: descriptionController,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Por favor, insira uma descrição';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _buildValueField() {
-    return CustomFormField(
-      icon: const Icon(Icons.monetization_on),
-      label: 'Valor',
-      hint: 'Valor da Despesa',
-      keyboardType: TextInputType.number,
-      controller: valueController,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Por favor, insira um valor';
-        } else if (double.tryParse(value) == null) {
-          return 'Por favor, insira um valor válido';
-        } else if (double.parse(value) <= 0) {
-          return 'Por favor, insira um valor maior que 0';
         }
         return null;
       },
@@ -233,11 +214,12 @@ class _TransactionFormState extends State<TransactionForm> {
       isLoading: state is TransactionLoadingState,
       onPressed: () {
         if (formKey.currentState!.validate()) {
+          String value = valueController.text.replaceAll(RegExp(r'[^0-9]'), '');
           context.read<TransactionBloc>().add(
                 TransactionCreateEvent(
                   transaction: TransactionEntity(
                     description: descriptionController.text,
-                    value: double.parse(valueController.text),
+                    value: double.parse(value),
                     date: DateTime.parse(dateController.text),
                     category: CategoryTransaction.values[categorySelector ?? 0],
                     type: TypeTransaction.values[typeSelector ?? 0],
@@ -255,7 +237,6 @@ class _TransactionFormState extends State<TransactionForm> {
   @override
   void dispose() {
     descriptionController.dispose();
-    valueController.dispose();
     dateController.dispose();
     groupIdController.dispose();
     super.dispose();
