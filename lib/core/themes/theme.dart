@@ -16,6 +16,12 @@ class CustomTheme {
       foregroundColor: Palette.white,
       iconTheme: IconThemeData(color: Palette.white, size: 24),
       titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+        ),
+      ),
     ),
     // ProgressIndicatorTheme
     progressIndicatorTheme: const ProgressIndicatorThemeData(
@@ -28,7 +34,7 @@ class CustomTheme {
       showCheckmark: false,
       selectedColor: Palette.primary,
       backgroundColor: Palette.background,
-      secondarySelectedColor: Palette.primary.withOpacity(0.3),
+      secondarySelectedColor: Palette.primary.withOpacity(0.1),
       labelStyle: const TextStyle(
         fontSize: 18,
         color: Palette.textColor,
@@ -67,7 +73,7 @@ class CustomTheme {
     ),
     // NavigationBarTheme
     navigationBarTheme: NavigationBarThemeData(
-      height: 90,
+      height: 80,
       elevation: 0,
       indicatorShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
@@ -144,6 +150,12 @@ class CustomTheme {
       foregroundColor: Palette.white,
       iconTheme: IconThemeData(color: Palette.white, size: 24),
       titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+        ),
+      ),
     ),
     // ProgressIndicatorTheme
     progressIndicatorTheme: const ProgressIndicatorThemeData(
@@ -156,7 +168,7 @@ class CustomTheme {
       showCheckmark: false,
       selectedColor: Palette.primaryDark,
       backgroundColor: Palette.backgroundDark,
-      secondarySelectedColor: Palette.primaryDark.withOpacity(0.3),
+      secondarySelectedColor: Palette.primaryDark.withOpacity(0.1),
       labelStyle: const TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,
@@ -195,7 +207,7 @@ class CustomTheme {
     ),
     // NavigationBarTheme
     navigationBarTheme: NavigationBarThemeData(
-      height: 90,
+      height: 80,
       elevation: 0,
       indicatorShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),

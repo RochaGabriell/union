@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 /* Core Imports */
 import 'package:union/core/common/cubit/user/user_cubit.dart';
 import 'package:union/core/common/widgets/form_header.dart';
+import 'package:union/core/enums/category_transaction.dart';
 import 'package:union/core/utils/show_dialog.dart';
 import 'package:union/core/enums/alert_type.dart';
 import 'package:union/core/utils/injections.dart';
@@ -12,6 +13,7 @@ import 'package:union/core/themes/palette.dart';
 
 /* Project Imports */
 import 'package:union/features/transaction/presentation/widgets/form/transaction_form.dart';
+import 'package:union/features/transaction/presentation/widgets/transaction_app_bar.dart';
 import 'package:union/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:union/features/transaction/domain/entities/transaction_entity.dart';
 
@@ -23,6 +25,8 @@ class TransactionPage extends StatefulWidget {
 }
 
 class _TransactionPageState extends State<TransactionPage> {
+  int filterSelected = -1;
+
   @override
   void initState() {
     super.initState();
@@ -35,10 +39,27 @@ class _TransactionPageState extends State<TransactionPage> {
     getIt<TransactionBloc>().add(TransactionsGetEvent(userId: userId));
   }
 
+  void _changeFilter(int index) {
+    setState(() => filterSelected = index);
+  }
+
+  List<TransactionEntity> _filterTransactions(
+    List<TransactionEntity> transactions,
+  ) {
+    if (filterSelected == -1) return transactions;
+    return transactions.where((transaction) {
+      return transaction.category.name ==
+          CategoryTransaction.values[filterSelected].name;
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(centerTitle: true, title: const Text('Despesas')),
+      appBar: TransactionAppBar(
+        filterSelected: filterSelected,
+        onFilterChange: _changeFilter,
+      ),
       body: RefreshIndicator(
         onRefresh: _fetchTransactions,
         color: Palette.primary,
@@ -76,10 +97,13 @@ class _TransactionPageState extends State<TransactionPage> {
   }
 
   Widget _buildTransactionList(List<TransactionEntity> groups) {
+    final List<TransactionEntity> filteredTransactions = _filterTransactions(
+      groups,
+    );
     return ListView.builder(
-      itemCount: groups.length,
+      itemCount: filteredTransactions.length,
       itemBuilder: (context, index) {
-        final group = groups[index];
+        final group = filteredTransactions[index];
         return ExpansionTile(
           leading: CircleAvatar(
             backgroundColor: Palette.primary,
@@ -100,11 +124,17 @@ class _TransactionPageState extends State<TransactionPage> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.edit),
-                    onPressed: () {},
+                    onPressed: () => _showGroupForm(context),
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete),
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read<TransactionBloc>().add(
+                            TransactionDeleteEvent(
+                              transactionId: group.id ?? '',
+                            ),
+                          );
+                    },
                   ),
                 ],
               ),

@@ -16,6 +16,8 @@ class _BaseState extends State<NavigationPage> {
 
   @override
   Widget build(BuildContext context) {
+    const Radius radius = Radius.circular(10);
+
     const List<Widget> pages = [
       GroupPage(),
       TransactionPage(),
@@ -34,18 +36,24 @@ class _BaseState extends State<NavigationPage> {
 
     return Scaffold(
       body: IndexedStack(index: currentPageIndex, children: pages),
-      bottomNavigationBar: NavigationBar(
-        destinations: List.generate(icons.length, (index) {
-          return NavigationDestination(
-            icon: Icon(icons[index]),
-            label: labels[index],
-          );
-        }),
-        selectedIndex: currentPageIndex,
-        onDestinationSelected: (int index) => setState(() {
-          currentPageIndex = index;
-        }),
-        animationDuration: const Duration(milliseconds: 500),
+      bottomNavigationBar: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: radius,
+          topRight: radius,
+        ),
+        child: NavigationBar(
+          destinations: List.generate(icons.length, (index) {
+            return NavigationDestination(
+              icon: Icon(icons[index]),
+              label: labels[index],
+            );
+          }),
+          selectedIndex: currentPageIndex,
+          onDestinationSelected: (int index) => setState(() {
+            currentPageIndex = index;
+          }),
+          animationDuration: const Duration(milliseconds: 500),
+        ),
       ),
     );
   }
