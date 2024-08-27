@@ -19,7 +19,6 @@ class GroupAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      scrolledUnderElevation: 0.0,
       title: const Text('Grupos'),
       actions: [
         IconButton(

@@ -3,16 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:union/core/themes/palette.dart';
 
-/* Project Imports */
-import 'package:union/features/group/presentation/widgets/form/group_form.dart';
-import 'package:union/features/group/presentation/widgets/group_app_bar.dart';
-import 'package:union/features/group/presentation/bloc/group_bloc.dart';
-import 'package:union/features/group/domain/entities/group_entity.dart';
+/* Core Imports */
 import 'package:union/core/common/cubit/user/user_cubit.dart';
 import 'package:union/core/common/widgets/form_header.dart';
 import 'package:union/core/utils/show_dialog.dart';
 import 'package:union/core/enums/alert_type.dart';
 import 'package:union/core/utils/injections.dart';
+import 'package:union/config/routes/router.dart' as routes;
+
+/* Project Imports */
+import 'package:union/features/group/presentation/widgets/form/group_form.dart';
+import 'package:union/features/group/presentation/widgets/group_app_bar.dart';
+import 'package:union/features/group/presentation/bloc/group_bloc.dart';
+import 'package:union/features/group/domain/entities/group_entity.dart';
 
 class GroupPage extends StatefulWidget {
   const GroupPage({super.key});
@@ -106,26 +109,49 @@ class _GroupPageState extends State<GroupPage> {
 
   Widget _buildGroupList(List<GroupEntity> groups) {
     final List<GroupEntity> filteredGroups = _filterGroups(groups);
-    return ListView.builder(
-      itemCount: filteredGroups.length,
-      itemBuilder: (context, index) {
-        final group = filteredGroups[index];
-        return ListTile(
-          splashColor: Palette.primary.withOpacity(0.1),
-          leading: const CircleAvatar(
-            backgroundColor: Palette.primary,
-            child: Icon(Icons.group, color: Colors.white),
-          ),
-          title: Text(group.name),
-          subtitle: Text(
-            group.description,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          trailing: const Icon(Icons.arrow_forward_ios),
-          onTap: () {},
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView.builder(
+        itemCount: filteredGroups.length,
+        itemBuilder: (context, index) {
+          final group = filteredGroups[index];
+          return Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+            margin: const EdgeInsets.only(bottom: 8),
+            child: ListTile(
+              splashColor: Palette.secondary,
+              leading: const CircleAvatar(
+                backgroundColor: Palette.primary,
+                child: Icon(Icons.group, color: Colors.white),
+              ),
+              title: Text(group.name),
+              subtitle: Text(
+                group.description,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  routes.groupDetail,
+                  arguments: group.id,
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 

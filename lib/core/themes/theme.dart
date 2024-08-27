@@ -12,10 +12,15 @@ class CustomTheme {
     scaffoldBackgroundColor: Palette.background,
     // appBarTheme
     appBarTheme: const AppBarTheme(
-      backgroundColor: Palette.primary,
-      foregroundColor: Palette.white,
-      iconTheme: IconThemeData(color: Palette.white, size: 24),
-      titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      scrolledUnderElevation: 0.0,
+      backgroundColor: Palette.background,
+      foregroundColor: Palette.primary,
+      iconTheme: IconThemeData(color: Palette.primary, size: 24),
+      titleTextStyle: TextStyle(
+        color: Palette.primary,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(10),
@@ -30,41 +35,48 @@ class CustomTheme {
       circularTrackColor: Palette.background,
     ),
     // ChoiceChipTheme
-    chipTheme: ChipThemeData(
+    chipTheme: const ChipThemeData(
       showCheckmark: false,
       selectedColor: Palette.primary,
-      backgroundColor: Palette.background,
-      secondarySelectedColor: Palette.primary.withOpacity(0.1),
-      labelStyle: const TextStyle(
+      backgroundColor: Palette.secondaryDark,
+      secondarySelectedColor: Palette.primary,
+      labelStyle: TextStyle(
         fontSize: 18,
-        color: Palette.textColor,
+        color: Palette.primary,
         fontWeight: FontWeight.bold,
       ),
-      secondaryLabelStyle: const TextStyle(color: Palette.primary),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      secondaryLabelStyle: TextStyle(color: Palette.secondary),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        side: BorderSide(color: Palette.transparent),
+      ),
     ),
     // ListTileTheme
-    listTileTheme: const ListTileThemeData(
+    listTileTheme: ListTileThemeData(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       tileColor: Palette.background,
       iconColor: Palette.textColor,
-      titleTextStyle: TextStyle(
+      titleTextStyle: const TextStyle(
         color: Palette.textColor,
         fontSize: 18,
         fontWeight: FontWeight.bold,
       ),
-      subtitleTextStyle: TextStyle(
+      subtitleTextStyle: const TextStyle(
         color: Palette.textDescriptionColor,
         fontSize: 16,
       ),
     ),
     // ExpansionTileTheme
     expansionTileTheme: ExpansionTileThemeData(
-      backgroundColor: Palette.primary.withOpacity(0.1),
       iconColor: Palette.textColor,
       textColor: Palette.textColor,
-      collapsedBackgroundColor: Palette.background,
       collapsedIconColor: Palette.textColor,
       collapsedTextColor: Palette.textColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: const BorderSide(color: Palette.divider, width: 1),
+      ),
     ),
     // FloatingActionButtonThemeData
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -81,15 +93,15 @@ class CustomTheme {
       indicatorColor: Palette.transparent,
       labelTextStyle: const WidgetStatePropertyAll(
         TextStyle(
-          color: Palette.white,
+          color: Palette.primary,
           fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
       ),
       iconTheme: const WidgetStatePropertyAll(
-        IconThemeData(color: Palette.white, size: 24),
+        IconThemeData(color: Palette.primary, size: 24),
       ),
-      backgroundColor: Palette.primary,
+      backgroundColor: Palette.background,
       labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
     ),
     // textTheme
@@ -146,10 +158,15 @@ class CustomTheme {
     scaffoldBackgroundColor: Palette.backgroundDark,
     // appBarTheme
     appBarTheme: const AppBarTheme(
-      backgroundColor: Palette.primaryDark,
-      foregroundColor: Palette.white,
-      iconTheme: IconThemeData(color: Palette.white, size: 24),
-      titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      scrolledUnderElevation: 0.0,
+      backgroundColor: Palette.backgroundDark,
+      foregroundColor: Palette.primaryDark,
+      iconTheme: IconThemeData(color: Palette.primaryDark, size: 24),
+      titleTextStyle: TextStyle(
+        color: Palette.primary,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(10),
@@ -164,41 +181,48 @@ class CustomTheme {
       circularTrackColor: Palette.backgroundDark,
     ),
     // ChoiceChipTheme
-    chipTheme: ChipThemeData(
+    chipTheme: const ChipThemeData(
       showCheckmark: false,
       selectedColor: Palette.primaryDark,
-      backgroundColor: Palette.backgroundDark,
-      secondarySelectedColor: Palette.primaryDark.withOpacity(0.1),
-      labelStyle: const TextStyle(
+      backgroundColor: Palette.secondaryDark,
+      secondarySelectedColor: Palette.primaryDark,
+      labelStyle: TextStyle(
         fontSize: 18,
+        color: Palette.primaryDark,
         fontWeight: FontWeight.bold,
-        color: Palette.textDarkColor,
       ),
-      secondaryLabelStyle: const TextStyle(color: Palette.primaryDark),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      secondaryLabelStyle: TextStyle(color: Palette.secondary),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        side: BorderSide(color: Palette.transparent),
+      ),
     ),
     // ListTileTheme
-    listTileTheme: const ListTileThemeData(
+    listTileTheme: ListTileThemeData(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       tileColor: Palette.backgroundDark,
       iconColor: Palette.textDarkColor,
-      titleTextStyle: TextStyle(
+      titleTextStyle: const TextStyle(
         color: Palette.textDarkColor,
         fontSize: 18,
         fontWeight: FontWeight.bold,
       ),
-      subtitleTextStyle: TextStyle(
+      subtitleTextStyle: const TextStyle(
         color: Palette.textDescriptionColor,
         fontSize: 16,
       ),
     ),
     // ExpansionTileTheme
     expansionTileTheme: ExpansionTileThemeData(
-      backgroundColor: Palette.primaryDark.withOpacity(0.1),
       iconColor: Palette.textDarkColor,
       textColor: Palette.textDarkColor,
-      collapsedBackgroundColor: Palette.backgroundDark,
       collapsedIconColor: Palette.textDarkColor,
       collapsedTextColor: Palette.textDarkColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: const BorderSide(color: Palette.divider, width: 1),
+      ),
     ),
     // FloatingActionButtonThemeData
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -215,15 +239,15 @@ class CustomTheme {
       indicatorColor: Palette.transparent,
       labelTextStyle: const WidgetStatePropertyAll(
         TextStyle(
-          color: Palette.white,
+          color: Palette.primaryDark,
           fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
       ),
       iconTheme: const WidgetStatePropertyAll(
-        IconThemeData(color: Palette.white, size: 24),
+        IconThemeData(color: Palette.primaryDark, size: 24),
       ),
-      backgroundColor: Palette.primaryDark,
+      backgroundColor: Palette.white,
       labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
     ),
     // textTheme

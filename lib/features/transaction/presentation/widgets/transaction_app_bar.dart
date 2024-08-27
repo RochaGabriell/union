@@ -51,32 +51,34 @@ class TransactionAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   ChoiceChip _buildChoiceChip(String label, int value) {
     return ChoiceChip(
-      label: _buildIcon(label),
+      label: _buildIcon(label, value),
       selected: filterSelected == value,
       onSelected: (selected) => onFilterChange(value),
     );
   }
 
-  Icon _buildIcon(String filter) {
+  Icon _buildIcon(String filter, int value) {
+    final color = filterSelected == value ? Palette.secondary : Palette.primary;
+
     switch (filter) {
       case 'todos':
-        return const Icon(Icons.all_inbox, color: Palette.primary);
+        return Icon(Icons.all_inbox, color: color);
       case 'alimentacao':
-        return const Icon(Icons.fastfood, color: Palette.primary);
+        return Icon(Icons.fastfood, color: color);
       case 'transporte':
-        return const Icon(Icons.directions_bus, color: Palette.primary);
+        return Icon(Icons.directions_bus, color: color);
       case 'saude':
-        return const Icon(Icons.local_hospital, color: Palette.primary);
+        return Icon(Icons.local_hospital, color: color);
       case 'educacao':
-        return const Icon(Icons.school, color: Palette.primary);
+        return Icon(Icons.school, color: color);
       case 'lazer':
-        return const Icon(Icons.sports_esports, color: Palette.primary);
+        return Icon(Icons.sports_esports, color: color);
       case 'moradia':
-        return const Icon(Icons.home, color: Palette.primary);
+        return Icon(Icons.home, color: color);
       case 'outros':
-        return const Icon(Icons.more_horiz, color: Palette.primary);
+        return Icon(Icons.more_horiz, color: color);
       default:
-        return const Icon(Icons.more_horiz, color: Palette.primary);
+        return Icon(Icons.more_horiz, color: color);
     }
   }
 

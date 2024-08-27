@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:union/features/finance_report/presentation/pages/finance_report.dart';
 import 'package:union/features/transaction/presentation/pages/transaction.dart';
 import 'package:union/features/navigation/presentation/pages/navigation.dart';
+import 'package:union/features/group/presentation/pages/group_detail.dart';
 import 'package:union/features/profile/presentation/pages/profile.dart';
 import 'package:union/features/splash/presentation/pages/splash.dart';
 import 'package:union/features/auth/presentation/pages/register.dart';
@@ -56,7 +57,8 @@ Route controller(RouteSettings settings) {
     case group:
       return MaterialPageRoute(builder: (_) => const GroupPage());
     case groupDetail:
-      return MaterialPageRoute(builder: (_) => const GroupPage());
+      final String groupId = settings.arguments as String;
+      return MaterialPageRoute(builder: (_) => GroupDetailPage(groupId: groupId));
 
     case transaction:
       return MaterialPageRoute(builder: (_) => const TransactionPage());

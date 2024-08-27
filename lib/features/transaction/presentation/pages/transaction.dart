@@ -104,43 +104,59 @@ class _TransactionPageState extends State<TransactionPage> {
       itemCount: filteredTransactions.length,
       itemBuilder: (context, index) {
         final group = filteredTransactions[index];
-        return ExpansionTile(
-          leading: CircleAvatar(
-            backgroundColor: Palette.primary,
-            child: _buildIcon(group.category.name),
-          ),
-          title: Text(group.description),
-          subtitle: Text(
-            '${_formatText(group.category.name)} - ${_formatText(group.type.name)}',
-          ),
-          trailing: Text(_formatValue(group.value)),
-          children: [
-            ListTile(
-              title: Text('Valor: ${_formatValue(group.value)}'),
-              subtitle: Text('Data: ${_formatDate(group.date)}'),
-              contentPadding: const EdgeInsets.only(left: 16, right: 8),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () => _showGroupForm(context),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      context.read<TransactionBloc>().add(
-                            TransactionDeleteEvent(
-                              transactionId: group.id ?? '',
-                            ),
-                          );
-                    },
-                  ),
-                ],
-              ),
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ExpansionTile(
+            leading: CircleAvatar(
+              backgroundColor: Palette.primary,
+              child: _buildIcon(group.category.name),
             ),
-          ],
-          // onTap: () {},
+            title: Text(group.description),
+            subtitle: Text(
+              '${_formatText(group.category.name)} - ${_formatText(group.type.name)}',
+            ),
+            trailing: Text(_formatValue(group.value)),
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: ListTile(
+                  title: Text('Valor: ${_formatValue(group.value)}'),
+                  subtitle: Text('Data: ${_formatDate(group.date)}'),
+                  contentPadding: const EdgeInsets.only(left: 16, right: 8),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // IconButton(
+                      //   icon: const Icon(Icons.edit),
+                      //   onPressed: () => _showGroupForm(context),
+                      // ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          context.read<TransactionBloc>().add(
+                                TransactionDeleteEvent(
+                                  transactionId: group.id ?? '',
+                                ),
+                              );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+            // onTap: () {},
+          ),
         );
       },
     );
