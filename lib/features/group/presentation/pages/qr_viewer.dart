@@ -30,8 +30,8 @@ class _QrViewerState extends State<QrViewer> {
             flex: 1,
             child: Center(
               child: (result != null)
-                  ? Text(messageFeedback.text)
-                  : const Text('Aponte a câmera para o QR Code'),
+                  ? _buildText(messageFeedback.text)
+                  : _buildText('Aponte a câmera para o QR Code'),
             ),
           )
         ],
@@ -39,11 +39,19 @@ class _QrViewerState extends State<QrViewer> {
     );
   }
 
+  Text _buildText(String text) {
+    return Text(
+      text,
+      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+    );
+  }
+
   Widget _buildQrView(BuildContext context) {
     final scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
-        ? 200.0
-        : 350.0;
+        ? 300.0
+        : 450.0;
+
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
@@ -65,9 +73,6 @@ class _QrViewerState extends State<QrViewer> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
-        setState(() {
-          messageFeedback.text = 'Código escaneado: $result';
-        });
         if (result != null) {
           final data = result!.code;
           if (data != null) {
@@ -94,16 +99,14 @@ class _QrViewerState extends State<QrViewer> {
   void _addMemberToGroup(String groupId, String ownerId) {
     final String? userId = getIt.get<UserCubit>().user?.id;
 
-    setState(() {
-      messageFeedback.text = 'Adicionando membro ao grupo...';
-    });
-
     getIt<GroupBloc>().add(GroupAddMemberEvent(
       params: GroupAddMemberParams(
         groupId: groupId,
         userId: userId ?? '',
       ),
     ));
+
+    Navigator.of(context).pop();
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {

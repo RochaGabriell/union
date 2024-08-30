@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 /* Package Imports */
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:union/features/group/domain/usecases/group_add_member.dart';
 
 /* Project Imports */
+import 'package:union/features/group/domain/usecases/group_add_member.dart';
 import 'package:union/features/group/domain/usecases/group_get_groups.dart';
 import 'package:union/features/group/domain/usecases/group_get_group.dart';
 import 'package:union/features/group/domain/entities/group_entity.dart';
@@ -22,6 +22,7 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
   final GroupDelete _groupDelete;
   final GroupGetGroup _groupGetGroup;
   final GroupGetGroups _groupGetGroups;
+  final GroupAddMember _groupAddMember;
 
   GroupBloc({
     required GroupCreate groupCreate,
@@ -29,11 +30,13 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
     required GroupDelete groupDelete,
     required GroupGetGroup groupGetGroup,
     required GroupGetGroups groupGetGroups,
+    required GroupAddMember groupAddMember,
   })  : _groupCreate = groupCreate,
         _groupUpdate = groupUpdate,
         _groupDelete = groupDelete,
         _groupGetGroup = groupGetGroup,
         _groupGetGroups = groupGetGroups,
+        _groupAddMember = groupAddMember,
         super(GroupInitialState()) {
     on<GroupEvent>((event, emit) => emit(GroupLoadingState()));
     on<GroupCreateEvent>(_createGroup);
@@ -41,6 +44,7 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
     on<GroupDeleteEvent>(_deleteGroup);
     on<GroupGetEvent>(_getGroup);
     on<GroupsGetEvent>(_getGroups);
+    on<GroupAddMemberEvent>(_addMember);
   }
 
   void _createGroup(GroupCreateEvent event, Emitter<GroupState> emit) async {
@@ -80,6 +84,14 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
     response.fold(
       (failure) => emit(GroupErrorState(failure.message)),
       (groups) => emit(GroupSuccessGetGroupsState(groups)),
+    );
+  }
+
+  void _addMember(GroupAddMemberEvent event, Emitter<GroupState> emit) async {
+    final response = await _groupAddMember(event.params);
+    response.fold(
+      (failure) => emit(GroupErrorState(failure.message)),
+      (_) => emit(GroupSuccessAddMemberState()),
     );
   }
 }

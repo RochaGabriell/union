@@ -64,14 +64,14 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                   QrImageView(
                     data: '${state.group.id}|${state.group.creatorId}',
                     version: QrVersions.auto,
-                    size: 150.0,
-                    eyeStyle: QrEyeStyle(
+                    size: 250.0,
+                    eyeStyle: const QrEyeStyle(
                       eyeShape: QrEyeShape.square,
-                      color: Theme.of(context).primaryColor,
+                      color: Palette.black,
                     ),
-                    dataModuleStyle: QrDataModuleStyle(
+                    dataModuleStyle: const QrDataModuleStyle(
                       dataModuleShape: QrDataModuleShape.square,
-                      color: Theme.of(context).primaryColor,
+                      color: Palette.black,
                     ),
                   ),
                   ListTile(
@@ -81,7 +81,6 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                 ],
               );
             }
-
             return const SizedBox();
           },
         ),

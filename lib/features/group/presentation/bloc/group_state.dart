@@ -32,3 +32,5 @@ final class GroupSuccessGetGroupsState extends GroupState {
 
   const GroupSuccessGetGroupsState(this.groups);
 }
+
+final class GroupSuccessAddMemberState extends GroupState {}

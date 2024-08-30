@@ -1,6 +1,7 @@
 /* Package Imports */
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /* Project Imports */
 import 'package:union/features/auth/presentation/bloc/auth_bloc.dart';
@@ -47,6 +48,7 @@ class _LoginFormState extends State<LoginForm> {
       icon: const Icon(Icons.email),
       label: 'Email',
       hint: 'Digite seu email',
+      keyboardType: TextInputType.emailAddress,
       autofillHints: const [AutofillHints.username],
       controller: _emailController,
       validator: _validator,
@@ -71,6 +73,7 @@ class _LoginFormState extends State<LoginForm> {
       isLoading: state is AuthLoadingState,
       onPressed: () {
         if (_formKey.currentState!.validate()) {
+          TextInput.finishAutofillContext();
           context.read<AuthBloc>().add(
                 AuthLoginEvent(
                   email: _emailController.text,

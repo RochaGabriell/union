@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 /* Core Imports */
 import 'package:union/core/common/cubit/user/user_cubit.dart';
 import 'package:union/core/common/widgets/form_header.dart';
+import 'package:union/config/routes/router.dart' as routes;
 import 'package:union/core/utils/show_dialog.dart';
 import 'package:union/core/enums/alert_type.dart';
 import 'package:union/core/utils/injections.dart';
-import 'package:union/config/routes/router.dart' as routes;
 
 /* Project Imports */
 import 'package:union/features/group/presentation/widgets/form/group_form.dart';
@@ -116,7 +116,9 @@ class _GroupPageState extends State<GroupPage> {
     if (state is GroupErrorState) {
       _showErrorDialog(state.message);
     } else if (state is GroupSuccessState) {
-      _showSuccessDialog();
+      _showSuccessDialog('Grupo criado com sucesso.');
+    } else if (state is GroupSuccessAddMemberState) {
+      _showSuccessDialog('Membro adicionado com sucesso.');
     }
   }
 
@@ -207,11 +209,11 @@ class _GroupPageState extends State<GroupPage> {
     );
   }
 
-  void _showSuccessDialog() {
+  void _showSuccessDialog(String message) {
     showMessageDialog(
       context,
       title: 'Sucesso!',
-      message: 'Grupo criado com sucesso.',
+      message: message,
       type: AlertType.success,
       onRedirect: _fetchGroups,
     );

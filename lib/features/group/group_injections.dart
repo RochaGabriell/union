@@ -1,6 +1,7 @@
 /* Project Imports */
 import 'package:union/features/group/data/repositories/group_repository_impl.dart';
 import 'package:union/features/group/domain/repositories/group_repository.dart';
+import 'package:union/features/group/domain/usecases/group_add_member.dart';
 import 'package:union/features/group/domain/usecases/group_create.dart';
 import 'package:union/features/group/domain/usecases/group_delete.dart';
 import 'package:union/features/group/domain/usecases/group_get_group.dart';
@@ -28,6 +29,7 @@ void initGroupInjections() {
     ..registerFactory(() => GroupDelete(getIt()))
     ..registerFactory(() => GroupGetGroup(getIt()))
     ..registerFactory(() => GroupGetGroups(getIt()))
+    ..registerFactory(() => GroupAddMember(getIt()))
     // Bloc
     ..registerLazySingleton(() {
       return GroupBloc(
@@ -36,6 +38,7 @@ void initGroupInjections() {
         groupDelete: getIt(),
         groupGetGroup: getIt(),
         groupGetGroups: getIt(),
+        groupAddMember: getIt(),
       );
     });
 }
