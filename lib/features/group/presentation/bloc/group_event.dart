@@ -32,3 +32,9 @@ final class GroupsGetEvent extends GroupEvent {
 
   GroupsGetEvent({required this.userId});
 }
+
+final class GroupAddMemberEvent extends GroupEvent {
+  final GroupAddMemberParams params;
+
+  GroupAddMemberEvent({required this.params});
+}

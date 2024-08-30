@@ -100,6 +100,8 @@ class _TransactionPageState extends State<TransactionPage> {
     final List<TransactionEntity> filteredTransactions = _filterTransactions(
       groups,
     );
+    final Brightness brightness = Theme.of(context).brightness;
+
     return ListView.builder(
       itemCount: filteredTransactions.length,
       itemBuilder: (context, index) {
@@ -119,7 +121,9 @@ class _TransactionPageState extends State<TransactionPage> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: brightness == Brightness.light
+                      ? Palette.white
+                      : Palette.black,
                   borderRadius: BorderRadius.circular(10),
                   boxShadow: [
                     BoxShadow(

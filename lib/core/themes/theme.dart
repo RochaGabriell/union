@@ -101,7 +101,7 @@ class CustomTheme {
       iconTheme: const WidgetStatePropertyAll(
         IconThemeData(color: Palette.primary, size: 24),
       ),
-      backgroundColor: Palette.background,
+      backgroundColor: Palette.white,
       labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
     ),
     // textTheme
@@ -221,7 +221,7 @@ class CustomTheme {
       collapsedTextColor: Palette.textDarkColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-        side: const BorderSide(color: Palette.divider, width: 1),
+        side: const BorderSide(color: Palette.disabled, width: 1),
       ),
     ),
     // FloatingActionButtonThemeData
@@ -247,7 +247,7 @@ class CustomTheme {
       iconTheme: const WidgetStatePropertyAll(
         IconThemeData(color: Palette.primaryDark, size: 24),
       ),
-      backgroundColor: Palette.white,
+      backgroundColor: Palette.black,
       labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
     ),
     // textTheme

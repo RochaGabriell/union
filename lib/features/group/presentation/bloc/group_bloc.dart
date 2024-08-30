@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 /* Package Imports */
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:union/features/group/domain/usecases/group_add_member.dart';
 
 /* Project Imports */
 import 'package:union/features/group/domain/usecases/group_get_groups.dart';

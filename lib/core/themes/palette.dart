@@ -18,7 +18,7 @@ class Palette {
   };
 
   static const Color black = Color.fromARGB(255, 22, 22, 22);
-  static const Color white = Color.fromARGB(255, 242, 242, 242);
+  static const Color white = Color.fromARGB(255, 255, 255, 255);
   static const Color placeholder = Color.fromARGB(255, 255, 247, 255);
 
   static const Color error = Color.fromARGB(255, 233, 60, 59);
@@ -40,6 +40,6 @@ class Palette {
   static const Color textColor = Color.fromARGB(255, 39, 61, 65);
   static const Color textDarkColor = Color.fromARGB(255, 255, 255, 255);
 
-  static const Color textLinkColor = Color.fromARGB(255, 0, 122, 255);
+  static const Color textLinkColor = Color.fromARGB(255, 242, 115, 33);
   static const Color textDescriptionColor = Color.fromARGB(255, 140, 163, 186);
 }

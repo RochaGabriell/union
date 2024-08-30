@@ -15,6 +15,8 @@ abstract interface class GroupRemoteDataSource {
   Future<GroupModel> getGroup({required String groupId});
 
   Future<List<GroupModel>> getGroups({required String userId});
+
+  Future<void> addMember({required String groupId, required String userId});
 }
 
 class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
@@ -85,6 +87,34 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
       return allGroups.map((group) {
         return GroupModel.fromJson(group.data());
       }).toList();
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> addMember({required String groupId, required String userId}) {
+    try {
+      final group = _firestore.collection('groups').doc(groupId).get();
+
+      group.then((value) {
+        final data = value.data() as Map<String, dynamic>;
+        final members = data['members'] as List<dynamic>;
+        final creatorId = data['creatorId'] as String;
+
+        if (members.contains(userId) || creatorId == userId) {
+          throw ServerException('Usuário já é membro do grupo.');
+        }
+
+        members.add(userId);
+
+        _firestore
+            .collection('groups')
+            .doc(groupId)
+            .update({'members': members});
+      });
+
+      return Future.value();
     } catch (e) {
       throw ServerException(e.toString());
     }

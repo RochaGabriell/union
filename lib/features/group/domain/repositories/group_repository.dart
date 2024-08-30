@@ -17,4 +17,9 @@ abstract interface class GroupRepository {
   Future<Either<Failure, List<GroupEntity>>> getGroups({
     required String userId,
   });
+
+  Future<Either<Failure, void>> addMember({
+    required String groupId,
+    required String userId,
+  });
 }

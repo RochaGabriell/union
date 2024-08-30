@@ -1,7 +1,7 @@
 /* Package Imports */
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:union/core/themes/palette.dart';
+import 'package:flutter/material.dart';
 
 /* Core Imports */
 import 'package:union/core/common/cubit/user/user_cubit.dart';
@@ -91,10 +91,23 @@ class _GroupPageState extends State<GroupPage> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'addGroup',
-        onPressed: () => _showGroupForm(context),
-        child: const Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            heroTag: 'scanQR',
+            onPressed: () {
+              Navigator.pushNamed(context, routes.qrViewer);
+            },
+            child: const Icon(Icons.qr_code),
+          ),
+          const SizedBox(height: 10),
+          FloatingActionButton(
+            heroTag: 'addGroup',
+            onPressed: () => _showGroupForm(context),
+            child: const Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }
@@ -109,6 +122,8 @@ class _GroupPageState extends State<GroupPage> {
 
   Widget _buildGroupList(List<GroupEntity> groups) {
     final List<GroupEntity> filteredGroups = _filterGroups(groups);
+    final Brightness brightness = Theme.of(context).brightness;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListView.builder(
@@ -117,7 +132,9 @@ class _GroupPageState extends State<GroupPage> {
           final group = filteredGroups[index];
           return Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: brightness == Brightness.light
+                  ? Palette.white
+                  : Palette.black,
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(

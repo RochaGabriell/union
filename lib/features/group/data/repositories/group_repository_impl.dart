@@ -115,4 +115,14 @@ class GroupRepositoryImpl implements GroupRepository {
       }).toList();
     });
   }
+
+  @override
+  Future<Either<Failure, void>> addMember({
+    required String groupId,
+    required String userId,
+  }) {
+    return _performRemoteOperation(() async {
+      await _groupRemoteDataSource.addMember(groupId: groupId, userId: userId);
+    });
+  }
 }
