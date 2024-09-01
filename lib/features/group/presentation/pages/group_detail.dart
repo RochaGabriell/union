@@ -141,6 +141,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
 
                     return TransactionList(
                       transactions: state.transactions,
+                      padding: const EdgeInsets.all(0),
                       onDelete: (id) {
                         context.read<TransactionBloc>().add(
                               TransactionDeleteEvent(transactionId: id),

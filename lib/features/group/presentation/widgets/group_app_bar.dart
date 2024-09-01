@@ -22,12 +22,6 @@ class GroupAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: const Text('Grupos'),
       actions: [
         IconButton(
-          icon: const Icon(Icons.person),
-          onPressed: () {
-            Navigator.pushNamed(context, routes.profile);
-          },
-        ),
-        IconButton(
           icon: const Icon(Icons.exit_to_app),
           onPressed: () {
             context.read<AuthBloc>().add(AuthLogoutEvent());
