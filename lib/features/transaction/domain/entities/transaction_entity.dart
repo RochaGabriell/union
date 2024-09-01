@@ -9,7 +9,7 @@ class TransactionEntity {
   final DateTime date;
   final CategoryTransaction category;
   final TypeTransaction type;
-  final String groupId;
+  final String? groupId;
   final String userId;
 
   TransactionEntity({
@@ -19,7 +19,7 @@ class TransactionEntity {
     required this.date,
     required this.category,
     required this.type,
-    required this.groupId,
+    this.groupId,
     required this.userId,
   });
 }

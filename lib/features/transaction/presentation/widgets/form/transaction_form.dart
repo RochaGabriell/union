@@ -194,12 +194,6 @@ class _TransactionFormState extends State<TransactionForm> {
               );
             }).toList(),
             onChanged: (value) => groupIdController.text = value!,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor, selecione um grupo';
-              }
-              return null;
-            },
           );
         } else {
           return const SizedBox();
@@ -214,7 +208,9 @@ class _TransactionFormState extends State<TransactionForm> {
       isLoading: state is TransactionLoadingState,
       onPressed: () {
         if (formKey.currentState!.validate()) {
-          String value = valueController.text.replaceAll(RegExp(r'[^0-9]'), '');
+          String value =
+              valueController.text.replaceAll(RegExp(r'[^0-9,]'), '');
+          value = value.replaceAll(',', '.');
           context.read<TransactionBloc>().add(
                 TransactionCreateEvent(
                   transaction: TransactionEntity(

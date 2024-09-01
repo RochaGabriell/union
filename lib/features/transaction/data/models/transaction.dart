@@ -11,7 +11,7 @@ class TransactionModel extends TransactionEntity {
     required super.date,
     required super.category,
     required super.type,
-    required super.groupId,
+    super.groupId,
     required super.userId,
   });
 

@@ -12,12 +12,14 @@ class TransactionList extends StatelessWidget {
   final List<TransactionEntity> transactions;
   final int filterSelected;
   final Function(String) onDelete;
+  final EdgeInsets padding;
 
   const TransactionList({
     super.key,
     required this.transactions,
     this.filterSelected = -1,
     required this.onDelete,
+    this.padding = const EdgeInsets.all(8),
   });
 
   List<TransactionEntity> _filterTransactions() {
@@ -39,7 +41,7 @@ class TransactionList extends StatelessWidget {
       itemBuilder: (context, index) {
         final transaction = filteredTransactions[index];
         return Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: padding,
           child: ExpansionTile(
             leading: CircleAvatar(
               backgroundColor: Palette.primary,
