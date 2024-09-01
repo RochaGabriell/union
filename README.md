@@ -14,25 +14,20 @@ Utiliza a arquitetura **MVVM** (Model-View-ViewModel), facilitada pela utilizaç
 
 - **Login:** Permite que os usuários façam login com email e senha.
 - **Registro:** Permite que novos usuários criem uma conta.
-- **Recuperação de Senha:** Permite que os usuários redefinam sua senha.
 
-### 2. Perfil (Profile)
-
-- **Perfil do Usuário:** Permite que o usuário visualize e edite suas informações pessoais, incluindo nome, email, renda fixa.
-
-### 3. Grupos (Group)
+### 2. Grupos (Group)
 
 - **Lista de Grupos:** Exibe os grupos que o usuário criou ou participa, com opção de criar novo grupo.
-- **Detalhes do Grupo:** Exibe detalhes de um grupo específico, incluindo nome, membros, e transações do grupo, com opções para adicionar membros e editar/excluir grupo.
+- **Detalhes do Grupo:** Exibe detalhes de um grupo específico, incluindo nome, membros, e transações do grupo, com opções para adicionar membros e excluir grupo.
 
-### 4. Transações (Transactions)
+### 3. Transações (Transactions)
 
 - **Adicionar Transação:** Permite que o usuário registre uma nova transação, especificando tipo (Fixa/Variável), valor, data, descrição, e grupo.
-- **Lista de Transações:** Exibe todas as transações do usuário ou de um grupo, com filtros para visualizar por tipo, valor, data, e grupo.
+- **Lista de Transações:** Exibe todas as transações do usuário ou de um grupo, com filtros para visualizar por tipo.
 
-### 5. Relatórios Financeiros (Finance Reports)
+### 4. Relatórios Financeiros (Finance Reports)
 
-- **Relatórios:** Exibe gráficos e relatórios financeiros, incluindo receitas e despesas pessoais e compartilhadas, com filtros para selecionar o período (mensal, anual).
+- **Relatórios:** Gráficos mostrando a diferença entre receita e gastos pessoais.
 
 ## Tecnologias Utilizadas
 

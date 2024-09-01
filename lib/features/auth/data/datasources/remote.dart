@@ -1,4 +1,5 @@
 /* Package Imports */
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 /* Project Imports */
@@ -66,7 +67,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       await userCredential.user!.reload();
       final updatedUser = _auth.currentUser;
 
-      return UserModel.fromFirebase(updatedUser!);
+      final firestore = FirebaseFirestore.instance;
+      await firestore.collection('users').doc(updatedUser!.uid).set({
+        'name': name,
+        'email': email,
+        'type': 'simple',
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
+      return UserModel.fromFirebase(updatedUser);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         throw ServerException('E-mail já em uso');
