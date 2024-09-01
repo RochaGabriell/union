@@ -28,7 +28,7 @@ abstract interface class GroupRepository {
     required String userId,
   });
 
-  Future<Either<Failure, List<String>>> getMembersNames({
+  Future<Either<Failure, List<Map<String, String>>>> getMembersNames({
     required String groupId,
   });
 }

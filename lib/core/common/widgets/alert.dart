@@ -107,7 +107,11 @@ class _MessageDialogState extends State<MessageDialog>
             Container(
               height: 60,
               alignment: Alignment.center,
-              child: Text(widget.message, style: const TextStyle(fontSize: 18)),
+              child: Text(
+                widget.message,
+                style: const TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,
+              ),
             ),
             Visibility(
               visible: widget.onRedirect != null,

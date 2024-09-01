@@ -23,7 +23,7 @@ final class GroupSuccessState extends GroupState {
 
 final class GroupSuccessGetGroupState extends GroupState {
   final GroupEntity group;
-  final List<String> membersNames;
+  final List<Map<String, String>> membersNames;
 
   const GroupSuccessGetGroupState(this.group, this.membersNames);
 }

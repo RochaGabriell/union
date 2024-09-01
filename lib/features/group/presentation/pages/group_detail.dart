@@ -9,6 +9,7 @@ import 'package:union/core/utils/show_dialog.dart';
 import 'package:union/core/enums/alert_type.dart';
 import 'package:union/core/utils/injections.dart';
 import 'package:union/core/themes/palette.dart';
+import 'package:union/features/group/domain/usecases/group_remove_member.dart';
 
 /* Project Imports */
 import 'package:union/features/transaction/presentation/widgets/transaction_list.dart';
@@ -28,6 +29,9 @@ class GroupDetailPage extends StatefulWidget {
 }
 
 class _GroupDetailPageState extends State<GroupDetailPage> {
+  final String? _userId = getIt.get<UserCubit>().user?.id;
+  String? _isCreator;
+
   @override
   void initState() {
     super.initState();
@@ -35,25 +39,38 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
     _fetchTransactions();
   }
 
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
   Future<void> _fetchGroup() async {
     getIt<GroupBloc>().add(GroupGetEvent(groupId: widget.groupId));
+
+    getIt<GroupBloc>().stream.listen((state) {
+      if (state is GroupSuccessGetGroupState) {
+        setState(() {
+          _isCreator = state.group.creatorId;
+        });
+      }
+    });
   }
 
   Future<void> _fetchGroups() async {
-    final String? userId = getIt.get<UserCubit>().user?.id;
+    final String? userId = _userId;
     if (userId == null) return;
 
-    final groupBloc = getIt<GroupBloc>();
-
-    if (groupBloc.state is! GroupSuccessGetGroupsState) {
-      groupBloc.add(GroupsGetEvent(userId: userId));
-    }
+    getIt<GroupBloc>().add(GroupsGetEvent(userId: userId));
   }
 
   Future<void> _fetchTransactions() async {
     final String? userId = getIt.get<UserCubit>().user?.id;
     if (userId == null) return;
-    getIt<TransactionBloc>().add(TransactionsGetEvent(userId: userId));
+    getIt<TransactionBloc>().add(TransactionsGetByGroupEvent(
+      groupId: widget.groupId,
+    ));
   }
 
   Future<void> _deleteGroup(
@@ -108,9 +125,12 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
         icon: const Icon(Icons.qr_code_2),
         onPressed: () => _showQrDialog(context, state),
       ),
-      IconButton(
-        icon: const Icon(Icons.delete),
-        onPressed: () => _deleteGroup(context, state),
+      Visibility(
+        visible: _isCreator == _userId,
+        child: IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () => _deleteGroup(context, state),
+        ),
       ),
     ];
   }
@@ -163,6 +183,8 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
   }
 
   Widget _buildMembers(GroupSuccessGetGroupState state) {
+    final idCreator = state.group.creatorId;
+
     return Column(
       children: [
         const Text(
@@ -177,10 +199,47 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
           Wrap(
             spacing: 8.0,
             runSpacing: 8.0,
-            children: state.membersNames.map((name) {
-              return Chip(label: Text(name));
+            children: List.generate(state.membersNames.length, (index) {
+              final member = state.membersNames[index];
+              final isCreator = _userId == idCreator;
+              final isUser = _userId == member['id'];
+
+              return index == 0
+                  ? Chip(
+                      label: Text(member['name'] ?? ''),
+                      backgroundColor: Palette.primary,
+                      labelStyle: const TextStyle(color: Palette.secondary),
+                    )
+                  : !isCreator && !isUser
+                      ? Chip(label: Text(member['name'] ?? ''))
+                      : GestureDetector(
+                          child: Chip(label: Text(member['name'] ?? '')),
+                          onTap: () {
+                            showMessageDialog(
+                              context,
+                              title:
+                                  isUser ? 'Sair do Grupo' : 'Remover Membro',
+                              message: isUser
+                                  ? 'Deseja sair do grupo?'
+                                  : 'Deseja realmente remover o membro?',
+                              type: AlertType.warning,
+                              onDismiss: () => {},
+                              onConfirm: () {
+                                getIt<GroupBloc>().add(GroupRemoveMemberEvent(
+                                  params: GroupRemoveMemberParams(
+                                    groupId: state.group.id ?? '',
+                                    userId: member['id'] ?? '',
+                                  ),
+                                ));
+                                isUser
+                                    ? Navigator.of(context).pop()
+                                    : _fetchGroup();
+                              },
+                            );
+                          },
+                        );
             }).toList(),
-          ),
+          )
       ],
     );
   }

@@ -98,18 +98,14 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
   }
 
   void _getGroups(GroupsGetEvent event, Emitter<GroupState> emit) async {
-    if (_cachedGroups != null) {
-      emit(GroupSuccessGetGroupsState(_cachedGroups!));
-    } else {
-      final response = await _groupGetGroups(event.userId);
-      response.fold(
-        (failure) => emit(GroupErrorState(failure.message)),
-        (groups) {
-          _cachedGroups = groups;
-          emit(GroupSuccessGetGroupsState(groups));
-        },
-      );
-    }
+    final response = await _groupGetGroups(event.userId);
+    response.fold(
+      (failure) => emit(GroupErrorState(failure.message)),
+      (groups) {
+        _cachedGroups = groups;
+        emit(GroupSuccessGetGroupsState(groups));
+      },
+    );
   }
 
   void _addMember(GroupAddMemberEvent event, Emitter<GroupState> emit) async {

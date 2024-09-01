@@ -6,13 +6,16 @@ import 'package:union/features/group/domain/repositories/group_repository.dart';
 import 'package:union/core/usecase/usecase.dart';
 import 'package:union/core/errors/failures.dart';
 
-class GroupGetMembersNames implements UseCase<List<String>, String> {
+class GroupGetMembersNames
+    implements UseCase<List<Map<String, String>>, String> {
   final GroupRepository _groupRepository;
 
   GroupGetMembersNames(this._groupRepository);
 
   @override
-  Future<Either<Failure, List<String>>> call(String groupId) async {
+  Future<Either<Failure, List<Map<String, String>>>> call(
+    String groupId,
+  ) async {
     return await _groupRepository.getMembersNames(groupId: groupId);
   }
 }

@@ -72,14 +72,14 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       },
                     ),
-                    const DividerCustom(),
-                    RedirectLink(
-                      text: 'Esqueceu sua senha?',
-                      link: 'Recupere',
-                      onTap: () {
-                        Navigator.pushNamed(context, routes.recovery);
-                      },
-                    ),
+                    // const DividerCustom(),
+                    // RedirectLink(
+                    //   text: 'Esqueceu sua senha?',
+                    //   link: 'Recupere',
+                    //   onTap: () {
+                    //     Navigator.pushNamed(context, routes.recovery);
+                    //   },
+                    // ),
                   ],
                 ),
               ),

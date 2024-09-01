@@ -20,7 +20,7 @@ abstract interface class GroupRemoteDataSource {
 
   Future<void> removeMember({required String groupId, required String userId});
 
-  Future<List<String>> getMembersNames({required String groupId});
+  Future<List<Map<String, String>>> getMembersNames({required String groupId});
 }
 
 class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
@@ -157,7 +157,8 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
   }
 
   @override
-  Future<List<String>> getMembersNames({required String groupId}) async {
+  Future<List<Map<String, String>>> getMembersNames(
+      {required String groupId}) async {
     try {
       final groupSnapshot =
           await _firestore.collection('groups').doc(groupId).get();
@@ -166,18 +167,24 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
       final members = data['members'] as List<dynamic>;
       final creatorName = await _getCreatorName(groupId: groupId);
 
-      final membersNames = await Future.wait(
-        members.map((memberId) async {
-          final userSnapshot =
-              await _firestore.collection('users').doc(memberId).get();
+      final membersNames = <Map<String, String>>[];
 
-          final userData = userSnapshot.data() as Map<String, dynamic>;
+      for (final member in members) {
+        final userSnapshot =
+            await _firestore.collection('users').doc(member).get();
 
-          return userData['name'] as String;
-        }),
-      );
+        final userData = userSnapshot.data() as Map<String, dynamic>;
 
-      membersNames.insert(0, creatorName);
+        membersNames.add({
+          'id': member,
+          'name': userData['name'] as String,
+        });
+      }
+
+      membersNames.insert(0, {
+        'id': data['creatorId'] as String,
+        'name': creatorName,
+      });
 
       return membersNames;
     } catch (e) {

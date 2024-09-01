@@ -76,7 +76,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     final response = await _transactionDelete(event.transactionId);
     response.fold(
       (failure) => emit(TransactionErrorState(failure.message)),
-      (_) => emit(TransactionSuccessState(event.transactionId)),
+      (_) => emit(TransactionSuccessDeleteState()),
     );
   }
 

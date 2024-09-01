@@ -138,7 +138,7 @@ class GroupRepositoryImpl implements GroupRepository {
   }
 
   @override
-  Future<Either<Failure, List<String>>> getMembersNames({
+  Future<Either<Failure, List<Map<String, String>>>> getMembersNames({
     required String groupId,
   }) {
     return _performRemoteOperation(() async {

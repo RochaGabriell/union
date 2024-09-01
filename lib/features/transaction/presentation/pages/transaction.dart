@@ -91,7 +91,9 @@ class _TransactionPageState extends State<TransactionPage> {
     if (state is TransactionErrorState) {
       _showErrorDialog(state.message);
     } else if (state is TransactionSuccessState) {
-      _showSuccessDialog();
+      _showSuccessDialog('Despesa cadastrada com sucesso!');
+    } else if (state is TransactionSuccessDeleteState) {
+      _showSuccessDialog('Despesa excluída com sucesso!');
     }
   }
 
@@ -131,11 +133,11 @@ class _TransactionPageState extends State<TransactionPage> {
     );
   }
 
-  void _showSuccessDialog() {
+  void _showSuccessDialog(String message) {
     showMessageDialog(
       context,
       title: 'Sucesso!',
-      message: 'Grupo criado com sucesso.',
+      message: message,
       type: AlertType.success,
       onRedirect: _fetchTransactions,
     );

@@ -21,6 +21,8 @@ final class TransactionSuccessState extends TransactionState {
   const TransactionSuccessState(this.transactionId);
 }
 
+final class TransactionSuccessDeleteState extends TransactionState {}
+
 final class TransactionSuccessGetTransactionState extends TransactionState {
   final TransactionEntity transaction;
 

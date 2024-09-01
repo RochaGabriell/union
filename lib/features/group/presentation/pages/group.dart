@@ -37,11 +37,7 @@ class _GroupPageState extends State<GroupPage> {
     final String? userId = getIt.get<UserCubit>().user?.id;
     if (userId == null) return;
 
-    final groupBloc = getIt<GroupBloc>();
-
-    if (groupBloc.state is! GroupSuccessGetGroupsState) {
-      groupBloc.add(GroupsGetEvent(userId: userId));
-    }
+    getIt<GroupBloc>().add(GroupsGetEvent(userId: userId));
   }
 
   void _changeFilter(int index) {
