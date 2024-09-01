@@ -28,8 +28,6 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
   final GroupRemoveMember _groupRemoveMember;
   final GroupGetMembersNames _groupGetMembersNames;
 
-  List<GroupEntity>? _cachedGroups;
-
   GroupBloc({
     required GroupCreate groupCreate,
     required GroupUpdate groupUpdate,
@@ -59,7 +57,6 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
   }
 
   void _createGroup(GroupCreateEvent event, Emitter<GroupState> emit) async {
-    _clearCache();
     final response = await _groupCreate(event.group);
     response.fold(
       (failure) => emit(GroupErrorState(failure.message)),
@@ -68,7 +65,6 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
   }
 
   void _updateGroup(GroupUpdateEvent event, Emitter<GroupState> emit) async {
-    _clearCache();
     final response = await _groupUpdate(event.group);
     response.fold(
       (failure) => emit(GroupErrorState(failure.message)),
@@ -77,7 +73,6 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
   }
 
   void _deleteGroup(GroupDeleteEvent event, Emitter<GroupState> emit) async {
-    _clearCache();
     final response = await _groupDelete(event.groupId);
     response.fold(
       (failure) => emit(GroupErrorState(failure.message)),
@@ -102,14 +97,12 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
     response.fold(
       (failure) => emit(GroupErrorState(failure.message)),
       (groups) {
-        _cachedGroups = groups;
         emit(GroupSuccessGetGroupsState(groups));
       },
     );
   }
 
   void _addMember(GroupAddMemberEvent event, Emitter<GroupState> emit) async {
-    _clearCache();
     final response = await _groupAddMember(event.params);
     response.fold(
       (failure) => emit(GroupErrorState(failure.message)),
@@ -124,9 +117,5 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
       (failure) => emit(GroupErrorState(failure.message)),
       (_) => emit(GroupSuccessRemoveMemberState()),
     );
-  }
-
-  void _clearCache() {
-    _cachedGroups = null;
   }
 }

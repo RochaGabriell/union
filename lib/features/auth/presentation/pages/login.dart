@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /* Project Imports */
 import 'package:union/features/auth/presentation/widgets/form/login_form.dart';
-import 'package:union/features/auth/presentation/widgets/divider_custom.dart';
 import 'package:union/features/auth/presentation/widgets/redirect_link.dart';
 import 'package:union/features/auth/presentation/widgets/auth_title.dart';
 import 'package:union/features/auth/presentation/bloc/auth_bloc.dart';
