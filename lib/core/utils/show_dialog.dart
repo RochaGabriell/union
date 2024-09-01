@@ -7,6 +7,7 @@ import 'package:union/core/enums/alert_type.dart';
 
 void showMessageDialog(
   BuildContext context, {
+  bool barrierDismissible = false,
   required String title,
   required String message,
   required AlertType type,
@@ -16,7 +17,7 @@ void showMessageDialog(
 }) {
   showDialog(
     context: context,
-    barrierDismissible: false,
+    barrierDismissible: barrierDismissible,
     builder: (context) {
       return MessageDialog(
         title: title,

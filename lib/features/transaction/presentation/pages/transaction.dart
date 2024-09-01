@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 /* Core Imports */
 import 'package:union/core/common/cubit/user/user_cubit.dart';
 import 'package:union/core/common/widgets/form_header.dart';
-import 'package:union/core/enums/category_transaction.dart';
 import 'package:union/core/utils/show_dialog.dart';
 import 'package:union/core/enums/alert_type.dart';
 import 'package:union/core/utils/injections.dart';
@@ -14,8 +13,8 @@ import 'package:union/core/themes/palette.dart';
 /* Project Imports */
 import 'package:union/features/transaction/presentation/widgets/form/transaction_form.dart';
 import 'package:union/features/transaction/presentation/widgets/transaction_app_bar.dart';
+import 'package:union/features/transaction/presentation/widgets/transaction_list.dart';
 import 'package:union/features/transaction/presentation/bloc/transaction_bloc.dart';
-import 'package:union/features/transaction/domain/entities/transaction_entity.dart';
 
 class TransactionPage extends StatefulWidget {
   const TransactionPage({super.key});
@@ -43,16 +42,6 @@ class _TransactionPageState extends State<TransactionPage> {
     setState(() => filterSelected = index);
   }
 
-  List<TransactionEntity> _filterTransactions(
-    List<TransactionEntity> transactions,
-  ) {
-    if (filterSelected == -1) return transactions;
-    return transactions.where((transaction) {
-      return transaction.category.name ==
-          CategoryTransaction.values[filterSelected].name;
-    }).toList();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,8 +63,18 @@ class _TransactionPageState extends State<TransactionPage> {
                   child: Text('Nenhuma despesa encontrada.'),
                 );
               }
-              return _buildTransactionList(state.transactions);
+
+              return TransactionList(
+                transactions: state.transactions,
+                filterSelected: filterSelected,
+                onDelete: (id) {
+                  context.read<TransactionBloc>().add(
+                        TransactionDeleteEvent(transactionId: id),
+                      );
+                },
+              );
             }
+
             return const SizedBox();
           },
         ),
@@ -94,107 +93,6 @@ class _TransactionPageState extends State<TransactionPage> {
     } else if (state is TransactionSuccessState) {
       _showSuccessDialog();
     }
-  }
-
-  Widget _buildTransactionList(List<TransactionEntity> groups) {
-    final List<TransactionEntity> filteredTransactions = _filterTransactions(
-      groups,
-    );
-    final Brightness brightness = Theme.of(context).brightness;
-
-    return ListView.builder(
-      itemCount: filteredTransactions.length,
-      itemBuilder: (context, index) {
-        final group = filteredTransactions[index];
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ExpansionTile(
-            leading: CircleAvatar(
-              backgroundColor: Palette.primary,
-              child: _buildIcon(group.category.name),
-            ),
-            title: Text(group.description),
-            subtitle: Text(
-              '${_formatText(group.category.name)} - ${_formatText(group.type.name)}',
-            ),
-            trailing: Text(_formatValue(group.value)),
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: brightness == Brightness.light
-                      ? Palette.white
-                      : Palette.black,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: ListTile(
-                  title: Text('Valor: ${_formatValue(group.value)}'),
-                  subtitle: Text('Data: ${_formatDate(group.date)}'),
-                  contentPadding: const EdgeInsets.only(left: 16, right: 8),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // IconButton(
-                      //   icon: const Icon(Icons.edit),
-                      //   onPressed: () => _showGroupForm(context),
-                      // ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          context.read<TransactionBloc>().add(
-                                TransactionDeleteEvent(
-                                  transactionId: group.id ?? '',
-                                ),
-                              );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-            // onTap: () {},
-          ),
-        );
-      },
-    );
-  }
-
-  Icon _buildIcon(String category) {
-    switch (category) {
-      case 'alimentacao':
-        return const Icon(Icons.fastfood, color: Colors.white);
-      case 'transporte':
-        return const Icon(Icons.directions_bus, color: Colors.white);
-      case 'saude':
-        return const Icon(Icons.local_hospital, color: Colors.white);
-      case 'educacao':
-        return const Icon(Icons.school, color: Colors.white);
-      case 'lazer':
-        return const Icon(Icons.sports_esports, color: Colors.white);
-      case 'moradia':
-        return const Icon(Icons.home, color: Colors.white);
-      case 'outros':
-        return const Icon(Icons.more_horiz, color: Colors.white);
-      default:
-        return const Icon(Icons.more_horiz, color: Colors.white);
-    }
-  }
-
-  String _formatText(String text) {
-    return text[0].toUpperCase() + text.substring(1).toLowerCase();
-  }
-
-  String _formatValue(double value) => 'R\$ ${value.toStringAsFixed(2)}';
-
-  String _formatDate(DateTime date) {
-    return '${date.day}/${date.month < 10 ? '0' : ''}${date.month}/${date.year}';
   }
 
   void _showGroupForm(BuildContext context) {

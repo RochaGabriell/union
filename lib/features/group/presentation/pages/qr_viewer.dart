@@ -19,6 +19,17 @@ class _QrViewerState extends State<QrViewer> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   final messageFeedback = TextEditingController();
 
+  Future<void> _fetchGroups() async {
+    final String? userId = getIt.get<UserCubit>().user?.id;
+    if (userId == null) return;
+
+    final groupBloc = getIt<GroupBloc>();
+
+    if (groupBloc.state is! GroupSuccessGetGroupsState) {
+      groupBloc.add(GroupsGetEvent(userId: userId));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,6 +91,7 @@ class _QrViewerState extends State<QrViewer> {
             if (parts.length == 2) {
               final groupId = parts[0];
               final ownerId = parts[1];
+              controller.pauseCamera();
               _addMemberToGroup(groupId, ownerId);
             } else {
               setState(() {
@@ -120,6 +132,7 @@ class _QrViewerState extends State<QrViewer> {
   @override
   void dispose() {
     controller?.dispose();
+    _fetchGroups();
     super.dispose();
   }
 }

@@ -125,4 +125,24 @@ class GroupRepositoryImpl implements GroupRepository {
       await _groupRemoteDataSource.addMember(groupId: groupId, userId: userId);
     });
   }
+
+  @override
+  Future<Either<Failure, void>> removeMember({
+    required String groupId,
+    required String userId,
+  }) {
+    return _performRemoteOperation(() async {
+      await _groupRemoteDataSource.removeMember(
+          groupId: groupId, userId: userId);
+    });
+  }
+
+  @override
+  Future<Either<Failure, List<String>>> getMembersNames({
+    required String groupId,
+  }) {
+    return _performRemoteOperation(() async {
+      return await _groupRemoteDataSource.getMembersNames(groupId: groupId);
+    });
+  }
 }

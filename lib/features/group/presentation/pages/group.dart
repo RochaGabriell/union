@@ -36,7 +36,12 @@ class _GroupPageState extends State<GroupPage> {
   Future<void> _fetchGroups() async {
     final String? userId = getIt.get<UserCubit>().user?.id;
     if (userId == null) return;
-    getIt<GroupBloc>().add(GroupsGetEvent(userId: userId));
+
+    final groupBloc = getIt<GroupBloc>();
+
+    if (groupBloc.state is! GroupSuccessGetGroupsState) {
+      groupBloc.add(GroupsGetEvent(userId: userId));
+    }
   }
 
   void _changeFilter(int index) {
@@ -117,6 +122,8 @@ class _GroupPageState extends State<GroupPage> {
       _showErrorDialog(state.message);
     } else if (state is GroupSuccessState) {
       _showSuccessDialog('Grupo criado com sucesso.');
+    } else if (state is GroupSuccessDeleteState) {
+      _showSuccessDialog('Grupo deletado com sucesso.');
     } else if (state is GroupSuccessAddMemberState) {
       _showSuccessDialog('Membro adicionado com sucesso.');
     }
@@ -207,6 +214,8 @@ class _GroupPageState extends State<GroupPage> {
       type: AlertType.error,
       onConfirm: () {},
     );
+
+    _fetchGroups();
   }
 
   void _showSuccessDialog(String message) {

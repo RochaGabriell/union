@@ -23,8 +23,9 @@ final class GroupSuccessState extends GroupState {
 
 final class GroupSuccessGetGroupState extends GroupState {
   final GroupEntity group;
+  final List<String> membersNames;
 
-  const GroupSuccessGetGroupState(this.group);
+  const GroupSuccessGetGroupState(this.group, this.membersNames);
 }
 
 final class GroupSuccessGetGroupsState extends GroupState {
@@ -33,4 +34,8 @@ final class GroupSuccessGetGroupsState extends GroupState {
   const GroupSuccessGetGroupsState(this.groups);
 }
 
+final class GroupSuccessDeleteState extends GroupState {}
+
 final class GroupSuccessAddMemberState extends GroupState {}
+
+final class GroupSuccessRemoveMemberState extends GroupState {}

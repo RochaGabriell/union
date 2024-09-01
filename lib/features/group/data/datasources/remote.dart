@@ -17,6 +17,10 @@ abstract interface class GroupRemoteDataSource {
   Future<List<GroupModel>> getGroups({required String userId});
 
   Future<void> addMember({required String groupId, required String userId});
+
+  Future<void> removeMember({required String groupId, required String userId});
+
+  Future<List<String>> getMembersNames({required String groupId});
 }
 
 class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
@@ -115,6 +119,86 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
           .collection('groups')
           .doc(groupId)
           .update({'members': members});
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<void> removeMember({
+    required String groupId,
+    required String userId,
+  }) async {
+    try {
+      final groupSnapshot =
+          await _firestore.collection('groups').doc(groupId).get();
+
+      final data = groupSnapshot.data() as Map<String, dynamic>;
+      final members = data['members'] as List<dynamic>;
+      final creatorId = data['creatorId'] as String;
+
+      if (creatorId == userId) {
+        throw ServerException('O criador do grupo não pode ser removido.');
+      }
+
+      if (!members.contains(userId)) {
+        throw ServerException('Usuário não é membro do grupo.');
+      }
+
+      members.remove(userId);
+
+      await _firestore
+          .collection('groups')
+          .doc(groupId)
+          .update({'members': members});
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<List<String>> getMembersNames({required String groupId}) async {
+    try {
+      final groupSnapshot =
+          await _firestore.collection('groups').doc(groupId).get();
+
+      final data = groupSnapshot.data() as Map<String, dynamic>;
+      final members = data['members'] as List<dynamic>;
+      final creatorName = await _getCreatorName(groupId: groupId);
+
+      final membersNames = await Future.wait(
+        members.map((memberId) async {
+          final userSnapshot =
+              await _firestore.collection('users').doc(memberId).get();
+
+          final userData = userSnapshot.data() as Map<String, dynamic>;
+
+          return userData['name'] as String;
+        }),
+      );
+
+      membersNames.insert(0, creatorName);
+
+      return membersNames;
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  Future<String> _getCreatorName({required String groupId}) async {
+    try {
+      final groupSnapshot =
+          await _firestore.collection('groups').doc(groupId).get();
+
+      final data = groupSnapshot.data() as Map<String, dynamic>;
+      final creatorId = data['creatorId'] as String;
+
+      final userSnapshot =
+          await _firestore.collection('users').doc(creatorId).get();
+
+      final userData = userSnapshot.data() as Map<String, dynamic>;
+
+      return userData['name'] as String;
     } catch (e) {
       throw ServerException(e.toString());
     }

@@ -73,17 +73,17 @@ class _MessageDialogState extends State<MessageDialog>
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      actionsPadding: const EdgeInsets.all(8),
+      actionsAlignment: MainAxisAlignment.center,
       contentPadding: const EdgeInsets.all(0),
       titlePadding: const EdgeInsets.all(0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Container(
-        height: 80,
-        padding: const EdgeInsets.all(16),
+        height: 50,
+        padding: const EdgeInsets.all(8),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: getColor().withOpacity(0.1),
+          color: getColor().withOpacity(0.8),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
@@ -92,14 +92,14 @@ class _MessageDialogState extends State<MessageDialog>
         child: Text(
           widget.title,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: getColor(),
+          style: const TextStyle(
+            color: Palette.white,
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
       content: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -107,18 +107,12 @@ class _MessageDialogState extends State<MessageDialog>
             Container(
               height: 60,
               alignment: Alignment.center,
-              child: Text(
-                widget.message,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Roboto',
-                ),
-              ),
+              child: Text(widget.message, style: const TextStyle(fontSize: 18)),
             ),
             Visibility(
               visible: widget.onRedirect != null,
               child: Padding(
-                padding: const EdgeInsets.only(top: 16.0),
+                padding: const EdgeInsets.only(top: 8.0),
                 child: AnimatedBuilder(
                   animation: _controller,
                   builder: (context, child) {
@@ -136,40 +130,15 @@ class _MessageDialogState extends State<MessageDialog>
       ),
       actions: [
         Visibility(
-          visible: widget.onConfirm != null,
-          child: TextButton(
-            style: ButtonStyle(
-              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              overlayColor:
-                  WidgetStateProperty.all(getColor().withOpacity(0.1)),
-            ),
-            onPressed: () {
-              if (Navigator.canPop(context)) {
-                Navigator.pop(context);
-              }
-              widget.onConfirm!();
-            },
-            child: Text(
-              'Confirmar',
-              style: TextStyle(color: getColor()),
-            ),
-          ),
-        ),
-        Visibility(
           visible: widget.onDismiss != null,
           child: TextButton(
             style: ButtonStyle(
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
-              overlayColor:
-                  WidgetStateProperty.all(getColor().withOpacity(0.1)),
+              overlayColor: WidgetStateProperty.all(
+                getColor().withOpacity(0.1),
+              ),
             ),
             onPressed: () {
               if (Navigator.canPop(context)) {
@@ -177,10 +146,27 @@ class _MessageDialogState extends State<MessageDialog>
               }
               widget.onDismiss!();
             },
-            child: Text(
-              'Cancelar',
-              style: TextStyle(color: getColor()),
+            child: Text('Cancelar', style: TextStyle(color: getColor())),
+          ),
+        ),
+        Visibility(
+          visible: widget.onConfirm != null,
+          child: TextButton(
+            style: ButtonStyle(
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              overlayColor: WidgetStateProperty.all(
+                getColor().withOpacity(0.1),
+              ),
             ),
+            onPressed: () {
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              }
+              widget.onConfirm!();
+            },
+            child: Text('Confirmar', style: TextStyle(color: getColor())),
           ),
         ),
       ],

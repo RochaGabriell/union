@@ -34,6 +34,18 @@ class CustomTheme {
       refreshBackgroundColor: Palette.background,
       circularTrackColor: Palette.background,
     ),
+    // DialogTheme
+    dialogTheme: DialogTheme(
+      alignment: Alignment.center,
+      backgroundColor: Palette.background,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      titleTextStyle: const TextStyle(
+        color: Palette.textColor,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+      contentTextStyle: const TextStyle(color: Palette.textColor, fontSize: 18),
+    ),
     // ChoiceChipTheme
     chipTheme: const ChipThemeData(
       showCheckmark: false,
@@ -179,6 +191,21 @@ class CustomTheme {
       color: Palette.primaryDark,
       refreshBackgroundColor: Palette.backgroundDark,
       circularTrackColor: Palette.backgroundDark,
+    ),
+    // DialogTheme
+    dialogTheme: DialogTheme(
+      alignment: Alignment.center,
+      backgroundColor: Palette.backgroundDark,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      titleTextStyle: const TextStyle(
+        color: Palette.textDarkColor,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+      contentTextStyle: const TextStyle(
+        color: Palette.textDarkColor,
+        fontSize: 18,
+      ),
     ),
     // ChoiceChipTheme
     chipTheme: const ChipThemeData(

@@ -22,4 +22,13 @@ abstract interface class GroupRepository {
     required String groupId,
     required String userId,
   });
+
+  Future<Either<Failure, void>> removeMember({
+    required String groupId,
+    required String userId,
+  });
+
+  Future<Either<Failure, List<String>>> getMembersNames({
+    required String groupId,
+  });
 }

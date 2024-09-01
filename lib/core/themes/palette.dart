@@ -23,7 +23,7 @@ class Palette {
 
   static const Color error = Color.fromARGB(255, 233, 60, 59);
   static const Color success = Color.fromARGB(255, 110, 156, 54);
-  static const Color warning = Color.fromARGB(255, 239, 197, 20);
+  static const Color warning = Color.fromARGB(255, 250, 177, 18);
   static const Color info = Color.fromARGB(255, 1, 126, 255);
 
   static const Color border = Color.fromARGB(255, 224, 224, 224);

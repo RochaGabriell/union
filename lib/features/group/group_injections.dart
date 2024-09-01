@@ -1,11 +1,13 @@
 /* Project Imports */
 import 'package:union/features/group/data/repositories/group_repository_impl.dart';
+import 'package:union/features/group/domain/usecases/group_get_members_names.dart';
 import 'package:union/features/group/domain/repositories/group_repository.dart';
+import 'package:union/features/group/domain/usecases/group_remove_member.dart';
 import 'package:union/features/group/domain/usecases/group_add_member.dart';
+import 'package:union/features/group/domain/usecases/group_get_groups.dart';
+import 'package:union/features/group/domain/usecases/group_get_group.dart';
 import 'package:union/features/group/domain/usecases/group_create.dart';
 import 'package:union/features/group/domain/usecases/group_delete.dart';
-import 'package:union/features/group/domain/usecases/group_get_group.dart';
-import 'package:union/features/group/domain/usecases/group_get_groups.dart';
 import 'package:union/features/group/domain/usecases/group_update.dart';
 import 'package:union/features/group/presentation/bloc/group_bloc.dart';
 import 'package:union/features/group/data/datasources/remote.dart';
@@ -30,6 +32,8 @@ void initGroupInjections() {
     ..registerFactory(() => GroupGetGroup(getIt()))
     ..registerFactory(() => GroupGetGroups(getIt()))
     ..registerFactory(() => GroupAddMember(getIt()))
+    ..registerFactory(() => GroupRemoveMember(getIt()))
+    ..registerFactory(() => GroupGetMembersNames(getIt()))
     // Bloc
     ..registerLazySingleton(() {
       return GroupBloc(
@@ -39,6 +43,8 @@ void initGroupInjections() {
         groupGetGroup: getIt(),
         groupGetGroups: getIt(),
         groupAddMember: getIt(),
+        groupRemoveMember: getIt(),
+        groupGetMembersNames: getIt(),
       );
     });
 }

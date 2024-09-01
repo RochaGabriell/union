@@ -7,7 +7,6 @@ import 'package:union/features/transaction/presentation/pages/transaction.dart';
 import 'package:union/features/navigation/presentation/pages/navigation.dart';
 import 'package:union/features/group/presentation/pages/group_detail.dart';
 import 'package:union/features/group/presentation/pages/qr_viewer.dart';
-import 'package:union/features/profile/presentation/pages/profile.dart';
 import 'package:union/features/splash/presentation/pages/splash.dart';
 import 'package:union/features/auth/presentation/pages/register.dart';
 import 'package:union/features/auth/presentation/pages/recovery.dart';
@@ -48,13 +47,6 @@ Route controller(RouteSettings settings) {
       return MaterialPageRoute(builder: (_) => const RegisterPage());
     case recovery:
       return MaterialPageRoute(builder: (_) => const RecoveryPage());
-
-    case profile:
-      return MaterialPageRoute(builder: (_) => const ProfilePage());
-    case editProfile:
-      return MaterialPageRoute(builder: (_) => const ProfilePage());
-    case changePassword:
-      return MaterialPageRoute(builder: (_) => const ProfilePage());
 
     case group:
       return MaterialPageRoute(builder: (_) => const GroupPage());

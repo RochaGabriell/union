@@ -38,3 +38,9 @@ final class GroupAddMemberEvent extends GroupEvent {
 
   GroupAddMemberEvent({required this.params});
 }
+
+final class GroupRemoveMemberEvent extends GroupEvent {
+  final GroupRemoveMemberParams params;
+
+  GroupRemoveMemberEvent({required this.params});
+}
