@@ -72,6 +72,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         'name': name,
         'email': email,
         'type': 'simple',
+        'fixedIncome': 0.0,
         'createdAt': FieldValue.serverTimestamp(),
       });
 

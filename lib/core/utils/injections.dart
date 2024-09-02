@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 /* Core Imports */
 import 'package:union/core/common/cubit/user/user_cubit.dart';
 import 'package:union/core/network/connection_checker.dart';
+import 'package:union/features/finance_report/finance_report_injections.dart';
 
 /* Feature Imports */
 import 'package:union/features/transaction/transaction_injections.dart';
@@ -20,6 +21,7 @@ Future<void> initDependencies() async {
   initAuthInjections();
   initGroupInjections();
   initTransactionInjections();
+  initFinanceReportInjections();
 
   getIt.registerLazySingleton(() => FirebaseAuth.instance);
   getIt.registerLazySingleton(() => FirebaseFirestore.instance);
