@@ -21,13 +21,6 @@ final class FinanceReportFixedIncome extends FinanceReportState {
   const FinanceReportFixedIncome(this.value);
 }
 
-final class FinanceReportSuccess extends FinanceReportState {
-  final double income;
-  final double expense;
-
-  const FinanceReportSuccess(this.income, this.expense);
-}
-
 final class FinanceReportSuccessGetExpenseByMonth extends FinanceReportState {
   final List<double> expenseByMonth;
 

@@ -6,10 +6,12 @@ import 'package:union/core/common/widgets/form_field.dart';
 
 class CurrencyInputField extends StatefulWidget {
   final TextEditingController valueController;
+  final bool disposed;
 
   const CurrencyInputField({
     super.key,
     required this.valueController,
+    this.disposed = true,
   });
 
   @override
@@ -69,8 +71,10 @@ class _CurrencyInputFieldState extends State<CurrencyInputField> {
 
   @override
   void dispose() {
-    widget.valueController.removeListener(_formatInput);
-    widget.valueController.dispose();
+    if (widget.disposed) {
+      widget.valueController.removeListener(_formatInput);
+      widget.valueController.dispose();
+    }
     super.dispose();
   }
 }
