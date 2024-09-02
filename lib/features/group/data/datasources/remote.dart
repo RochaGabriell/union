@@ -28,9 +28,30 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
 
   GroupRemoteDataSourceImpl(this._firestore);
 
+  Future<bool> _canJoinOrCreateGroup(String userId) async {
+    final userSnapshot = await _firestore.collection('users').doc(userId).get();
+    final userData = userSnapshot.data() as Map<String, dynamic>;
+    final accountType = userData['type'] as String;
+
+    if (accountType == 'simple') {
+      final groups = await getGroups(userId: userId);
+      if (groups.length >= 2) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   @override
   Future<String> createGroup({required GroupModel group}) async {
     try {
+      final canCreate = await _canJoinOrCreateGroup(group.creatorId);
+      if (!canCreate) {
+        throw ServerException(
+          'Usuários com conta "simple" só podem participar de até 2 grupos.',
+        );
+      }
+
       final groupId = group.id;
       await _firestore.collection('groups').doc(groupId).set(group.toJson());
       return groupId ?? '';
@@ -102,6 +123,13 @@ class GroupRemoteDataSourceImpl implements GroupRemoteDataSource {
     required String userId,
   }) async {
     try {
+      final canJoin = await _canJoinOrCreateGroup(userId);
+      if (!canJoin) {
+        throw ServerException(
+          'Usuários com conta "simple" só podem participar de até 2 grupos.',
+        );
+      }
+
       final groupSnapshot =
           await _firestore.collection('groups').doc(groupId).get();
 
