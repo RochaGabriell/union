@@ -98,8 +98,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     final response = await _transactionGetTransactions(event.userId);
     response.fold(
       (failure) => emit(TransactionErrorState(failure.message)),
-      (transactions) =>
-          emit(TransactionSuccessGetTransactionsState(transactions)),
+      (transactions) => emit(
+        TransactionSuccessGetTransactionsState(transactions),
+      ),
     );
   }
 
@@ -110,8 +111,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     final response = await _transactionGetByGroup(event.groupId);
     response.fold(
       (failure) => emit(TransactionErrorState(failure.message)),
-      (transactions) =>
-          emit(TransactionSuccessGetTransactionsState(transactions)),
+      (transactions) => emit(
+        TransactionSuccessGetTransactionsByGroupState(transactions),
+      ),
     );
   }
 }

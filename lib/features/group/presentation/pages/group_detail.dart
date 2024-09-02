@@ -9,11 +9,11 @@ import 'package:union/core/utils/show_dialog.dart';
 import 'package:union/core/enums/alert_type.dart';
 import 'package:union/core/utils/injections.dart';
 import 'package:union/core/themes/palette.dart';
-import 'package:union/features/group/domain/usecases/group_remove_member.dart';
 
 /* Project Imports */
 import 'package:union/features/transaction/presentation/widgets/transaction_list.dart';
 import 'package:union/features/transaction/presentation/bloc/transaction_bloc.dart';
+import 'package:union/features/group/domain/usecases/group_remove_member.dart';
 import 'package:union/features/group/presentation/bloc/group_bloc.dart';
 
 class GroupDetailPage extends StatefulWidget {
@@ -36,7 +36,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
   void initState() {
     super.initState();
     _fetchGroup();
-    _fetchTransactions();
+    _fetchTransactionsByGroup();
   }
 
   @override
@@ -65,12 +65,18 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
     getIt<GroupBloc>().add(GroupsGetEvent(userId: userId));
   }
 
-  Future<void> _fetchTransactions() async {
+  Future<void> _fetchTransactionsByGroup() async {
     final String? userId = getIt.get<UserCubit>().user?.id;
     if (userId == null) return;
     getIt<TransactionBloc>().add(TransactionsGetByGroupEvent(
       groupId: widget.groupId,
     ));
+  }
+
+  Future<void> _fetchTransactions() async {
+    final String? userId = getIt.get<UserCubit>().user?.id;
+    if (userId == null) return;
+    getIt<TransactionBloc>().add(TransactionsGetEvent(userId: userId));
   }
 
   Future<void> _deleteGroup(
@@ -152,7 +158,8 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
                 builder: (context, state) {
                   if (state is TransactionLoadingState) {
                     return const Center(child: CircularProgressIndicator());
-                  } else if (state is TransactionSuccessGetTransactionsState) {
+                  } else if (state
+                      is TransactionSuccessGetTransactionsByGroupState) {
                     if (state.transactions.isEmpty) {
                       return const Center(
                         child: Text('Nenhuma despesa encontrada.'),
@@ -278,6 +285,7 @@ class _GroupDetailPageState extends State<GroupDetailPage> {
   @override
   void dispose() {
     _fetchGroups();
+    _fetchTransactions();
     super.dispose();
   }
 }
