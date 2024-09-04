@@ -2,11 +2,19 @@
 
 Union é um aplicativo móvel desenvolvido como parte da [disciplina de Programação para Dispositivos Móveis](https://github.com/fgsantosti/ProgramacaoDispositivosMoveisFlutter/blob/main/Programa%C3%A7%C3%A3o_pra_Dispositivos_Moveis_Trabalho_Final_2024.ipynb), com o objetivo de facilitar o gerenciamento financeiro de grupos, como famílias ou amigos que compartilham despesas. Ele oferece funcionalidades para cadastro de renda, registro de gastos e visualização de relatórios financeiros, permitindo que os usuários mantenham um controle detalhado de suas finanças coletivas.
 
+## Vídeo de Apresentação
+
+<div>
+  <a href="https://youtu.be/tn2AQHMA2AY?si=Q6Fw5EZra6ERSk_X">
+    <img src="https://i.ytimg.com/an_webp/tn2AQHMA2AY/mqdefault_6s.webp?du=3000&sqp=CPzz4bYG&rs=AOn4CLBhiTQo4FzoQvlOYsy8MjfXcctLLg" alt="Vídeo de Apresentação" height="300"/>
+  </a>
+</div>
+
 ## Arquitetura
 
 Utiliza a arquitetura **MVVM** (Model-View-ViewModel), facilitada pela utilização do **BLoC** para gerenciamento de estados e separação de responsabilidades. Essa arquitetura permite um código mais modular e de fácil manutenção, alinhando as melhores práticas de desenvolvimento em Flutter.
 
-![Arquitetura MVVM](https://miro.medium.com/v2/resize:fit:720/format:webp/0*dX_zDXT7FiBemzFs.png)
+<img src="https://miro.medium.com/v2/resize:fit:720/format:webp/0*dX_zDXT7FiBemzFs.png" alt="MVVM"  height="400"/>
 
 ## Funcionalidades
 
