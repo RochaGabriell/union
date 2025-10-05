@@ -12,7 +12,11 @@ Union é um aplicativo móvel desenvolvido como parte da [disciplina de Programa
 
 ## Arquitetura
 
-Utiliza a arquitetura **MVVM** (Model-View-ViewModel), facilitada pela utilização do **BLoC** para gerenciamento de estados e separação de responsabilidades. Essa arquitetura permite um código mais modular e de fácil manutenção, alinhando as melhores práticas de desenvolvimento em Flutter.
+O aplicativo utiliza **Clean Architecture**, combinada com **BLoC** para gerenciamento de estado. Essa abordagem permite separar responsabilidades em camadas distintas, tornando o código **modular, testável e de fácil manutenção**:
+
+* **Domain:** Contém as regras de negócio, entidades e casos de uso (UseCases). É independente de frameworks ou detalhes de implementação.
+* **Data:** Implementa repositórios, fontes de dados (Firebase, API, local storage) e fornece os dados para o Domain.
+* **Presentation:** Responsável pela interface do usuário. Os **BLoCs** aqui transformam eventos da UI em estados, comunicando-se com os casos de uso do Domain.
 
 <img src="https://miro.medium.com/v2/resize:fit:720/format:webp/0*dX_zDXT7FiBemzFs.png" alt="MVVM"  height="400"/>
 
